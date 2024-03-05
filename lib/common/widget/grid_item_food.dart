@@ -1,0 +1,191 @@
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import '../../config/config.dart';
+import '../../core/utils/utils.dart';
+import '../../features/food/data/model/food_model.dart';
+
+class GridItemFood extends StatelessWidget {
+  final List<FoodModel>? list;
+  final bool? isScroll;
+
+  const GridItemFood({super.key, required this.list, this.isScroll = false});
+  Widget _buildImage(FoodModel food) {
+    return Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(defaultBorderRadius),
+            image: DecorationImage(
+                image: NetworkImage(food.image == "" ? noImage : food.image),
+                fit: BoxFit.cover)));
+  }
+
+  Widget _buildPercentDiscount(BuildContext context, FoodModel food) {
+    return Container(
+        height: 30,
+        width: 50,
+        decoration: BoxDecoration(
+            color: kRedColor,
+            borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(defaultBorderRadius),
+                topLeft: Radius.circular(defaultBorderRadius))),
+        child: Center(
+            child: Text("${food.discount}%", style: context.textStyleSmall)));
+  }
+
+  Widget _buildTitle(BuildContext context, FoodModel food) {
+    return FittedBox(
+        alignment: Alignment.centerLeft,
+        child: Text(food.name,
+            overflow: TextOverflow.ellipsis, style: context.textStyleSmall));
+  }
+
+  Widget _buildPriceDiscount(BuildContext context, FoodModel food) {
+    double discountAmount = (food.price * food.discount.toDouble()) / 100;
+    double discountedPrice = food.price - discountAmount;
+    return food.isDiscount == false
+        ? Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+                Expanded(
+                    flex: 2,
+                    child: FittedBox(
+                        alignment: Alignment.bottomLeft,
+                        child: Text(
+                            Ultils.currencyFormat(
+                                double.parse(food.price.toString())),
+                            style: context.textStyleSmall!.copyWith(
+                                color: context.colorScheme.secondary,
+                                fontWeight: FontWeight.bold)))),
+                Expanded(
+                    child: FittedBox(
+                        alignment: Alignment.bottomRight,
+                        child: _buildButtonCart(food)))
+              ])
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+                // TextStyle(
+                //                   fontFamily: GoogleFonts.nunito().fontFamily,
+                //                   decoration: TextDecoration.lineThrough,
+                //                   decorationThickness: 3.0,
+                //                   decorationColor: Colors.red,
+                //                   decorationStyle: TextDecorationStyle.solid)
+                Expanded(
+                    flex: 2,
+                    child: FittedBox(
+                        alignment: Alignment.bottomLeft,
+                        child: Row(children: [
+                          Text(
+                              Ultils.currencyFormat(
+                                  double.parse(food.price.toString())),
+                              style: context.textStyleSmall!.copyWith(
+                                  decoration: TextDecoration.lineThrough,
+                                  decorationThickness: 3.0,
+                                  decorationColor: Colors.red,
+                                  decorationStyle: TextDecorationStyle.solid)),
+                          const SizedBox(width: 8),
+                          Text(
+                              Ultils.currencyFormat(
+                                  double.parse(discountedPrice.toString())),
+                              style: context.textStyleSmall!.copyWith(
+                                  color: context.colorScheme.secondary,
+                                  fontWeight: FontWeight.bold))
+                        ]))),
+                Expanded(
+                    child: FittedBox(
+                        alignment: Alignment.bottomRight,
+                        child: _buildButtonCart(food)))
+              ]);
+  }
+
+  Widget _buildButtonCart(FoodModel food) {
+    return GestureDetector(
+        onTap: () {
+          // Get.toNamed(Routes.order, arguments: {'food': food});
+          // Get.bottomSheet(
+          //     SizedBox(
+          //         height: size.height * 0.75, child: OrderScreen(food: food)),
+          //     ignoreSafeArea: false,
+          //     isScrollControlled: true,
+          //     enableDrag: false,
+          //     useRootNavigator: true);
+        },
+        child: FittedBox(
+            child: Icon(Icons.shopping_cart_outlined,
+                weight: 10, color: kWhiteColor)));
+  }
+
+  Widget _buildGridItemFood(BuildContext contextt, List<FoodModel> food) {
+    // var shortestSide = contextt.sizeDevice.shortestSide;
+    // shortestSide < 600 ? 2 : 2
+    return Padding(
+        padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+        child: GridView.builder(
+            shrinkWrap: true,
+            physics: isScroll!
+                ? const BouncingScrollPhysics()
+                : const NeverScrollableScrollPhysics(),
+            itemCount: food.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2),
+            itemBuilder: (context, index) => _buildItem(context, food[index])));
+  }
+
+  Widget _buildItem(BuildContext context, FoodModel foodModel) {
+    return GestureDetector(
+        onTap: () {
+          // FirebaseFirestore.instance
+          //     .collection('food')
+          //     .doc(list?[i].id)
+          //     .update({'count': FieldValue.increment(1)});
+
+          context.push(RouteName.foodDetail, extra: foodModel);
+        },
+        child: LayoutBuilder(
+            builder: (context, constraints) => Card(
+                  child: SizedBox(
+                      width: constraints.constrainHeight(),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            Expanded(
+                                flex: 2,
+                                child: Stack(children: <Widget>[
+                                  _buildImage(foodModel),
+                                  foodModel.isDiscount == true
+                                      ? _buildPercentDiscount(
+                                          context, foodModel)
+                                      : const SizedBox()
+                                ])),
+                            Expanded(
+                                flex: 1,
+                                child: Padding(
+                                    padding: EdgeInsets.all(defaultPadding / 2),
+                                    child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                              child: _buildTitle(
+                                                  context, foodModel)),
+                                          Expanded(
+                                              child: _buildPriceDiscount(
+                                                  context, foodModel))
+                                        ])))
+                          ])),
+                )));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // var foods = <FoodModel>[].obs;
+    // foods.value = list!;
+
+    // return Obx(() => _buildListItemFood(list!));
+    return _buildGridItemFood(context, list!);
+  }
+}
