@@ -1,6 +1,5 @@
 part of 'food_bloc.dart';
 
-@freezed
 class FoodEvent {}
 
 final class NewFoodsOnLimitFetched extends FoodEvent {
@@ -18,3 +17,8 @@ final class FoodsFetched extends FoodEvent {}
 final class NewFoodsFetched extends FoodEvent {}
 
 final class PopularFoodsFetched extends FoodEvent {}
+
+final class FoodsOnCaregoryFetched extends FoodEvent {
+  final String categoryID;
+  FoodsOnCaregoryFetched({required this.categoryID});
+}

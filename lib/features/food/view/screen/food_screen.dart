@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mlt_menu/config/router.dart';
+import 'package:mlt_menu/core/config/router.dart';
 import 'package:mlt_menu/features/food/bloc/food_bloc.dart';
 import 'package:tiengviet/tiengviet.dart';
 import '../../../../common/bloc/bloc_helper.dart';

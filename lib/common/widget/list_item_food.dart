@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mlt_menu/common/widget/cart_button.dart';
 import 'package:mlt_menu/common/widget/loading_screen.dart';
-import 'package:mlt_menu/config/config.dart';
+import 'package:mlt_menu/core/config/config.dart';
 
 import '../../core/utils/utils.dart';
 import '../../features/food/data/model/food_model.dart';
@@ -122,9 +124,11 @@ class ListItemFood extends StatelessWidget {
           //     enableDrag: false,
           //     useRootNavigator: true);
         },
-        child: FittedBox(
-            child: Icon(Icons.shopping_cart_outlined,
-                weight: 10, color: kWhiteColor)));
+        child: SvgPicture.asset('assets/icon/cart.svg',
+            height: 20,
+            width: 20,
+            colorFilter:
+                const ColorFilter.mode(Colors.white, BlendMode.srcIn)));
   }
 
   Widget _buildListItemFood(List<FoodModel> food) {

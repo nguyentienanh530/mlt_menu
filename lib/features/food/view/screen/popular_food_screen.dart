@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mlt_menu/common/bloc/generic_bloc_state.dart';
+import 'package:mlt_menu/common/widget/cart_button.dart';
 import 'package:mlt_menu/common/widget/empty_screen.dart';
 import 'package:mlt_menu/common/widget/error_screen.dart';
 import 'package:mlt_menu/common/widget/grid_item_food.dart';
 import 'package:mlt_menu/common/widget/loading_screen.dart';
+import 'package:mlt_menu/core/config/router.dart';
 import 'package:mlt_menu/core/utils/utils.dart';
 import 'package:mlt_menu/features/food/bloc/food_bloc.dart';
 
@@ -28,11 +30,7 @@ class PopularFoodsScreen extends StatelessWidget {
               style: context.textStyleMedium!
                   .copyWith(fontWeight: FontWeight.bold)),
           actions: [
-            IconButton(
-                onPressed: () {},
-                icon: SvgPicture.asset('assets/icon/cart.svg',
-                    colorFilter:
-                        const ColorFilter.mode(Colors.white, BlendMode.srcIn)))
+            CartButton(onPressed: () => context.push(RouteName.cartScreen))
           ]);
 }
 
@@ -46,7 +44,7 @@ class PopularFoodsView extends StatelessWidget {
       Status.loading => const LoadingScreen(),
       Status.empty => const EmptyScreen(),
       Status.failure => ErrorScreen(errorMsg: newFoodsState.error),
-      Status.success => GridItemFood(list: newFoodsState.datas, isScroll: true),
+      Status.success => GridItemFood(list: newFoodsState.datas, isScroll: true)
     });
   }
 }

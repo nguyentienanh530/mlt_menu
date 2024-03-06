@@ -10,7 +10,7 @@ import '../../../../common/dialog/app_alerts.dart';
 import '../../../../common/widget/common_button.dart';
 import '../../../../common/widget/common_line_text.dart';
 import '../../../../common/widget/common_text_field.dart';
-import '../../../../config/config.dart';
+import '../../../../core/config/config.dart';
 import '../../../auth/bloc/auth_bloc.dart';
 import '../../../user/bloc/user_bloc.dart';
 import '../../../user/data/model/user_model.dart';

@@ -35,8 +35,8 @@ class AppString {
   static String searchFood = 'Tìm kiếm món ăn';
   static String addToCart = 'Thêm vào giỏ hàng';
   static String dontSelectTable = 'Chưa chọn bàn, quay lại trang chủ chọn bàn.';
-  static String ok = 'Ok';
-  static String cancel = 'Cancel';
+  static String ok = 'Xác nhận';
+  static String cancel = 'Hủy';
   static String totalPrice = 'Tổng tiền:';
   static String addedToCart = 'Đã thêm vào giỏ hàng.';
   static String priceSell = 'Giá bán';

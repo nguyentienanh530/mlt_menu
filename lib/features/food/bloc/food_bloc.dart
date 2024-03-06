@@ -20,6 +20,7 @@ class FoodBloc extends Bloc<FoodEvent, GenericBlocState<FoodModel>>
     on<FoodsFetched>(_foodsFetched);
     on<NewFoodsFetched>(_newFoodsFetched);
     on<PopularFoodsFetched>(_popularFoodsFetched);
+    on<FoodsOnCaregoryFetched>(_getFoodsOncategory);
   }
   final _foodRepository = FoodRepo(
       foodRepository:
@@ -48,5 +49,11 @@ class FoodBloc extends Bloc<FoodEvent, GenericBlocState<FoodModel>>
   FutureOr<void> _popularFoodsFetched(
       PopularFoodsFetched event, Emit emit) async {
     await getItems(_foodRepository.getPopularFoods(), emit);
+  }
+
+  FutureOr<void> _getFoodsOncategory(
+      FoodsOnCaregoryFetched event, Emit emit) async {
+    await getItems(
+        _foodRepository.getFoodsOnCategory(categoryID: event.categoryID), emit);
   }
 }

@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mlt_menu/core/utils/utils.dart';
+import 'package:mlt_menu/features/cart/view/screen/cart_screen.dart';
 
 import '../../../auth/bloc/auth_bloc.dart';
 import '../../../dashboard/view/screen/dashboard_screen.dart';
@@ -143,6 +144,6 @@ class HomeView extends StatelessWidget {
     // const OrderScreen(),
     // const FoodScreen(),
     // const TableScreen(),
-    const ProfileScreen()
+    const CartScreen()
   ];
 }

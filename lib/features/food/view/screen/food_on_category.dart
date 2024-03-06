@@ -6,45 +6,45 @@ import 'package:mlt_menu/common/widget/empty_screen.dart';
 import 'package:mlt_menu/common/widget/error_screen.dart';
 import 'package:mlt_menu/common/widget/grid_item_food.dart';
 import 'package:mlt_menu/common/widget/loading_screen.dart';
+import 'package:mlt_menu/core/config/config.dart';
 import 'package:mlt_menu/core/utils/utils.dart';
 import 'package:mlt_menu/features/food/bloc/food_bloc.dart';
-
 import '../../../../common/widget/cart_button.dart';
-import '../../../../core/config/config.dart';
+import '../../../category/data/model/category_model.dart';
 
-class NewFoodsScreen extends StatelessWidget {
-  const NewFoodsScreen({super.key});
+class FoodOnCategory extends StatelessWidget {
+  const FoodOnCategory({super.key, required this.category});
+  final CategoryModel category;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => FoodBloc()..add(NewFoodsFetched()),
+        create: (context) =>
+            FoodBloc()..add(FoodsOnCaregoryFetched(categoryID: category.id)),
         child: Scaffold(
             appBar: _buildAppbar(context),
-            body: const SafeArea(child: NewFoodsView())));
+            body: const SafeArea(child: FoodOnCategoryView())));
   }
 
   _buildAppbar(BuildContext context) => AppBar(
           centerTitle: true,
-          title: Text('Món ăn mới',
-              style: context.textStyleMedium!
-                  .copyWith(fontWeight: FontWeight.bold)),
+          title: Text(category.name, style: context.textStyleLarge),
           actions: [
             CartButton(onPressed: () => context.push(RouteName.cartScreen))
           ]);
 }
 
-class NewFoodsView extends StatelessWidget {
-  const NewFoodsView({super.key});
+class FoodOnCategoryView extends StatelessWidget {
+  const FoodOnCategoryView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var newFoodsState = context.watch<FoodBloc>().state;
-    return (switch (newFoodsState.status) {
+    var foodsOnCategoryState = context.watch<FoodBloc>().state;
+    return (switch (foodsOnCategoryState.status) {
       Status.loading => const LoadingScreen(),
       Status.empty => const EmptyScreen(),
-      Status.failure => ErrorScreen(errorMsg: newFoodsState.error),
-      Status.success => GridItemFood(list: newFoodsState.datas, isScroll: true),
+      Status.failure => ErrorScreen(errorMsg: foodsOnCategoryState.error),
+      Status.success => GridItemFood(list: foodsOnCategoryState.datas)
     });
   }
 }

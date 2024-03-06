@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../config/config.dart';
+import '../core/config/config.dart';
 
 class AppView extends StatelessWidget {
   const AppView({super.key});

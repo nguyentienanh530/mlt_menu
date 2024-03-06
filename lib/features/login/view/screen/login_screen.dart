@@ -9,7 +9,7 @@ import '../../../../common/dialog/app_alerts.dart';
 import '../../../../common/widget/common_button.dart';
 import '../../../../common/widget/common_line_text.dart';
 import '../../../../common/widget/common_text_field.dart';
-import '../../../../config/config.dart';
+import '../../../../core/config/config.dart';
 import '../../../../core/utils/utils.dart';
 import '../../cubit/login_cubit.dart';
 

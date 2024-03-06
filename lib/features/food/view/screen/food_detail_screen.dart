@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mlt_menu/common/widget/cart_button.dart';
 import 'package:mlt_menu/common/widget/loading_screen.dart';
+import 'package:mlt_menu/core/config/config.dart';
 import '../../../../common/widget/common_bottomsheet.dart';
 import '../../../../core/utils/utils.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -22,7 +24,10 @@ class FoodDetailScreen extends StatelessWidget {
         title: Text(AppString.titleFoodDetail,
             style: context.titleStyleMedium!
                 .copyWith(fontWeight: FontWeight.bold)),
-        centerTitle: true);
+        centerTitle: true,
+        actions: [
+          CartButton(onPressed: () => context.push(RouteName.cartScreen))
+        ]);
   }
 }
 

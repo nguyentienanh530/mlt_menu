@@ -36,4 +36,11 @@ class FoodRepo extends FirebaseBase<FoodModel> {
     return await getItems(
         await _foodRepository.getNewFoods(), FoodModel.fromJson);
   }
+
+  Future<FirebaseResult<List<FoodModel>>> getFoodsOnCategory(
+      {required String categoryID}) async {
+    return await getItems(
+        await _foodRepository.getFoodsOnCategory(categoryID: categoryID),
+        FoodModel.fromJson);
+  }
 }

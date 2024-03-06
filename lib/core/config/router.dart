@@ -1,17 +1,21 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mlt_menu/features/cart/view/screen/cart_screen.dart';
 import 'package:mlt_menu/features/food/data/model/food_model.dart';
 import 'package:mlt_menu/features/food/view/screen/food_detail_screen.dart';
+import 'package:mlt_menu/features/food/view/screen/food_on_category.dart';
 import 'package:mlt_menu/features/food/view/screen/food_screen.dart';
 import 'package:mlt_menu/features/food/view/screen/new_food_screen.dart';
 import 'package:mlt_menu/features/food/view/screen/popular_food_screen.dart';
-import '../features/auth/bloc/auth_bloc.dart';
-import '../features/home/view/screen/home_screen.dart';
-import '../features/login/view/screen/login_screen.dart';
-import '../features/register/view/screen/signup_screen.dart';
-import '../features/user/data/model/user_model.dart';
+import 'package:mlt_menu/features/user/view/screen/profile_screen.dart';
+import '../../features/auth/bloc/auth_bloc.dart';
+import '../../features/category/data/model/category_model.dart';
+import '../../features/home/view/screen/home_screen.dart';
+import '../../features/login/view/screen/login_screen.dart';
+import '../../features/register/view/screen/signup_screen.dart';
+import '../../features/user/data/model/user_model.dart';
 // import '../features/user/view/screen/change_password.dart';
-import '../features/user/view/screen/update_user.dart';
+import '../../features/user/view/screen/update_user.dart';
 
 class RouteName {
   static const String home = '/';
@@ -26,6 +30,9 @@ class RouteName {
   static const String updateUser = '/updateUser';
   static const String changePassword = '/changePassword';
   static const String printSeting = '/printSeting';
+  static const String foodOnCategory = '/foodOnCategory';
+  static const String cartScreen = '/cartScreen';
+
   static const publicRoutes = [login, register];
 }
 
@@ -73,5 +80,19 @@ final router = GoRouter(
           builder: (context, state) {
             final UserModel user = GoRouterState.of(context).extra as UserModel;
             return UpdateUser(user: user);
-          })
+          }),
+      GoRoute(
+          path: RouteName.foodOnCategory,
+          builder: (context, state) {
+            final CategoryModel category =
+                GoRouterState.of(context).extra as CategoryModel;
+            return FoodOnCategory(category: category);
+          }),
+      GoRoute(
+          path: RouteName.cartScreen,
+          builder: (context, state) => const CartScreen()),
+
+      GoRoute(
+          path: RouteName.profile,
+          builder: (context, state) => const ProfileScreen()),
     ]);

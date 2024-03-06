@@ -16,6 +16,20 @@ class FoodRepository {
     }
   }
 
+  Future<QuerySnapshot<Map<String, dynamic>>> getFoodsOnCategory(
+      {required String categoryID}) async {
+    try {
+      return await _firebaseFirestore
+          .collection('food')
+          .where('categoryID', isEqualTo: categoryID)
+          .get();
+    } on FirebaseException catch (e) {
+      throw '$e';
+    } catch (e) {
+      throw '$e';
+    }
+  }
+
   Future<QuerySnapshot<Map<String, dynamic>>> getNewFoodsOnLimit(
       {required int limit}) async {
     try {

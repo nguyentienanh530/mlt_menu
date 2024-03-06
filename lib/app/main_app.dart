@@ -1,6 +1,7 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mlt_menu/features/cart/cubit/cart_cubit.dart';
 
 import '../features/auth/bloc/auth_bloc.dart';
 import '../features/user/bloc/user_bloc.dart';
@@ -22,6 +23,7 @@ class MainApp extends StatelessWidget {
           BlocProvider(
               create: (_) => AuthBloc(
                   authenticationRepository: _authenticationRepository)),
+          BlocProvider(create: (_) => CartCubit()),
           // BlocProvider(create: (_) => OrderBloc()),
           // BlocProvider(create: (_) => FoodBloc()),
           // BlocProvider(create: (_) => TableBloc()),

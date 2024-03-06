@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import '../../config/config.dart';
+import 'package:mlt_menu/features/cart/view/widget/order_food_bottomsheet.dart';
+import '../../core/config/config.dart';
 import '../../core/utils/utils.dart';
 import '../../features/food/data/model/food_model.dart';
 
@@ -59,7 +61,7 @@ class GridItemFood extends StatelessWidget {
                 Expanded(
                     child: FittedBox(
                         alignment: Alignment.bottomRight,
-                        child: _buildButtonCart(food)))
+                        child: _buildButtonCart(context, food)))
               ])
         : Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -95,11 +97,11 @@ class GridItemFood extends StatelessWidget {
                 Expanded(
                     child: FittedBox(
                         alignment: Alignment.bottomRight,
-                        child: _buildButtonCart(food)))
+                        child: _buildButtonCart(context, food)))
               ]);
   }
 
-  Widget _buildButtonCart(FoodModel food) {
+  Widget _buildButtonCart(BuildContext context, FoodModel food) {
     return GestureDetector(
         onTap: () {
           // Get.toNamed(Routes.order, arguments: {'food': food});
@@ -110,10 +112,18 @@ class GridItemFood extends StatelessWidget {
           //     isScrollControlled: true,
           //     enableDrag: false,
           //     useRootNavigator: true);
+
+          showModalBottomSheet(
+              barrierLabel: 'ádasdasdas',
+              context: context,
+              isScrollControlled: true,
+              builder: (context) => OrderFoodBottomSheet(foodModel: food));
         },
-        child: FittedBox(
-            child: Icon(Icons.shopping_cart_outlined,
-                weight: 10, color: kWhiteColor)));
+        child: SvgPicture.asset('assets/icon/cart.svg',
+            height: 20,
+            width: 20,
+            colorFilter:
+                const ColorFilter.mode(Colors.white, BlendMode.srcIn)));
   }
 
   Widget _buildGridItemFood(BuildContext contextt, List<FoodModel> food) {

@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../common/bloc/bloc_helper.dart';
 import '../../../../common/bloc/generic_bloc_state.dart';
 import '../../../../common/widget/common_bottomsheet.dart';
-import '../../../../config/config.dart';
+import '../../../../core/config/config.dart';
 import '../../../../core/utils/utils.dart';
 import '../../../auth/bloc/auth_bloc.dart';
 import '../../../../common/widget/empty_screen.dart';
@@ -40,8 +40,12 @@ class _ProfileState extends State<ProfileScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return const Scaffold(body: ProfileView());
+    return Scaffold(appBar: _buildAppbar(), body: const ProfileView());
   }
+
+  _buildAppbar() => AppBar(
+      centerTitle: true,
+      title: Text('Thông tin', style: context.textStyleLarge));
 
   @override
   bool get wantKeepAlive => true;

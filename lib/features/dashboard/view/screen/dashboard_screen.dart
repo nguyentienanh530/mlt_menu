@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mlt_menu/config/router.dart';
+import 'package:mlt_menu/core/config/router.dart';
 import 'package:mlt_menu/core/utils/utils.dart';
 import 'package:mlt_menu/features/banner/bloc/banner_bloc.dart';
 import 'package:mlt_menu/features/category/bloc/category_bloc.dart';
@@ -68,14 +68,17 @@ class _DashboardViewState extends State<DashboardView>
                     style: context.textStyleSmall!
                         .copyWith(fontWeight: FontWeight.bold))),
             const SizedBox(width: 8),
-            Container(
-                height: 30,
-                width: 30,
-                decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        image: NetworkImage(
-                            'https://firebasestorage.googleapis.com/v0/b/mltmenu.appspot.com/o/food%2F2024-03-02%2015%3A35%3A46.683212%2B%223%22.png?alt=media&token=76008777-8c02-4e4c-844d-f4fdc25f144b')))),
+            GestureDetector(
+              onTap: () => context.push(RouteName.profile),
+              child: Container(
+                  height: 30,
+                  width: 30,
+                  decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                          image: NetworkImage(
+                              'https://firebasestorage.googleapis.com/v0/b/mltmenu.appspot.com/o/food%2F2024-03-02%2015%3A35%3A46.683212%2B%223%22.png?alt=media&token=76008777-8c02-4e4c-844d-f4fdc25f144b')))),
+            ),
             const SizedBox(width: 16)
           ]);
 
@@ -90,7 +93,7 @@ class _DashboardViewState extends State<DashboardView>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildSearch(),
-                const SliderImage(),
+                SliderImage(),
                 const SizedBox(height: 16),
                 const Categories(),
                 _buildTitle(
