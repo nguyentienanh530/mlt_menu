@@ -49,4 +49,17 @@ class TableRepository {
       throw '$e';
     }
   }
+
+  Future<void> updateStatusTable(
+      {required Map<String, dynamic> dataJson}) async {
+    var tableID = dataJson['id'] as String;
+    try {
+      await _firebaseFirestore
+          .collection('table')
+          .doc(tableID)
+          .update(dataJson);
+    } catch (e) {
+      throw '$e';
+    }
+  }
 }

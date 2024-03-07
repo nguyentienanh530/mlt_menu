@@ -1,64 +1,160 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mlt_menu/common/bloc/bloc_helper.dart';
+import 'package:mlt_menu/common/bloc/generic_bloc_state.dart';
+import 'package:mlt_menu/common/dialog/app_alerts.dart';
+import 'package:mlt_menu/common/dialog/retry_dialog.dart';
 import 'package:mlt_menu/common/widget/common_bottomsheet.dart';
 import 'package:mlt_menu/common/widget/empty_screen.dart';
-import 'package:mlt_menu/core/utils/app_string.dart';
-import 'package:mlt_menu/core/utils/extensions.dart';
 import 'package:mlt_menu/features/cart/cubit/cart_cubit.dart';
+import 'package:mlt_menu/features/order/bloc/order_bloc.dart';
 import 'package:mlt_menu/features/order/data/model/food_order.dart';
 import 'package:mlt_menu/features/order/data/model/order_model.dart';
-
-import '../../../../core/utils/contants.dart';
+import 'package:mlt_menu/features/table/cubit/table_cubit.dart';
 import '../../../../core/utils/utils.dart';
+import '../../../table/bloc/table_bloc.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var cartState = context.watch<CartCubit>().state;
+    return BlocProvider(create: (context) => TableBloc(), child: CardView());
+  }
+}
+
+// ignore: must_be_immutable
+class CardView extends StatelessWidget {
+  CardView({super.key});
+  var cartState = OrderModel();
+  @override
+  Widget build(BuildContext context) {
+    cartState = context.watch<CartCubit>().state;
+    var table = context.watch<TableCubit>().state;
     return Scaffold(
         appBar: _buildAppbar(context),
         body: cartState.foods.isEmpty
             ? const EmptyScreen()
-            : _buildBody(cartState));
+            : BlocListener<OrderBloc, GenericBlocState<OrderModel>>(
+                listenWhen: (previous, current) =>
+                    previous.status != current.status ||
+                    context.read<OrderBloc>().operation == ApiOperation.create,
+                listener: (context, state) => switch (state.status) {
+                      Status.loading => AppAlerts.loadingDialog(context),
+                      Status.empty => const SizedBox(),
+                      Status.failure => RetryDialog(
+                          title: 'Xảy ra lỗi!',
+                          onRetryPressed: () => context
+                              .read<OrderBloc>()
+                              .add(OrderCreated(orderModel: cartState))),
+                      Status.success =>
+                        AppAlerts.successDialog(context, btnOkOnPress: () {
+                          table = table.copyWith(isUse: true);
+                          context
+                              .read<TableBloc>()
+                              .add(TableUpdated(tableModel: table));
+                          context.read<CartCubit>().onCartClear();
+                          context.read<TableCubit>().onTableClear();
+                          pop(context, 2);
+                        }, desc: 'Cảm ơn quý khách!')
+                    },
+                child: _buildBody(context, cartState)));
   }
 
   _buildAppbar(BuildContext context) => AppBar(
       centerTitle: true,
       title: Text('Giỏ hàng', style: context.textStyleLarge));
 
-  Widget _buildBody(OrderModel orderModel) {
-    return ListView.builder(
-        itemCount: orderModel.foods.length,
-        itemBuilder: (context, index) =>
-            _buildItemFood(context, orderModel, orderModel.foods[index]));
+  Widget _buildBody(BuildContext context, OrderModel orderModel) {
+    return Column(children: [
+      Expanded(
+          child: ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              itemCount: orderModel.foods.length,
+              itemBuilder: (context, index) => _buildItemFood(
+                  context, orderModel, orderModel.foods[index]))),
+      Card(
+          margin: const EdgeInsets.all(16),
+          child: Container(
+              padding: const EdgeInsets.all(16),
+              width: double.infinity,
+              child: Column(children: [
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Tổng tiền:', style: context.textStyleSmall),
+                      Text(
+                          Ultils.currencyFormat(
+                              double.parse(cartState.totalPrice.toString())),
+                          style: context.textStyleLarge!.copyWith(
+                              color: context.colorScheme.secondary,
+                              fontWeight: FontWeight.bold))
+                    ]),
+                const SizedBox(height: 8),
+                AnimatedButton(
+                    color: context.colorScheme.primary,
+                    text: 'Lên đơn',
+                    buttonTextStyle: context.textStyleMedium!
+                        .copyWith(fontWeight: FontWeight.bold),
+                    pressEvent: () => submitCreateOrder(context))
+              ])))
+    ]);
+  }
+
+  void submitCreateOrder(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) => CommonBottomSheet(
+            title: 'Kiểm tra kĩ trước khi lên đơn',
+            textCancel: AppString.cancel,
+            textConfirm: '${AppString.ok} lên đơn',
+            onCancel: () => context.pop(),
+            onConfirm: () => _handleCreateOrder(context)));
+  }
+
+  void _handleCreateOrder(BuildContext context) {
+    context.pop();
+    cartState = cartState.copyWith(orderTime: DateTime.now().toString());
+    context.read<OrderBloc>().add(OrderCreated(orderModel: cartState));
   }
 
   Widget _buildItemFood(
       BuildContext context, OrderModel orderModel, FoodOrder foo) {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: defaultPadding / 2),
-        child: Slidable(
-            endActionPane: ActionPane(
-                extentRatio: 0.3,
-                motion: const ScrollMotion(),
-                children: [
-                  SlidableAction(
-                      borderRadius: BorderRadius.circular(defaultBorderRadius),
-                      flex: 1,
-                      // spacing: 8,
-                      padding: EdgeInsets.all(defaultPadding),
-                      onPressed: (ct) {
-                        _handleDeleteItem(context, orderModel, foo);
-                      },
-                      backgroundColor: context.colorScheme.error,
-                      foregroundColor: Colors.white,
-                      icon: Icons.delete_forever)
-                ]),
-            child: _buildItem(context, foo)));
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Slidable(
+          endActionPane: ActionPane(
+              extentRatio: 0.3,
+              motion: const ScrollMotion(),
+              children: [
+                Card(
+                    color: context.colorScheme.errorContainer,
+                    child: InkWell(
+                        onTap: () =>
+                            _handleDeleteItem(context, orderModel, foo),
+                        child: SizedBox(
+                            height: double.infinity,
+                            width: context.sizeDevice.width * 0.25,
+                            child: SvgPicture.asset('assets/icon/delete.svg',
+                                fit: BoxFit.none,
+                                colorFilter: const ColorFilter.mode(
+                                    Colors.white, BlendMode.srcIn)))))
+                // SlidableAction(
+                //     borderRadius: BorderRadius.circular(defaultBorderRadius),
+                //     flex: 1,
+                //     onPressed: (ct) {
+                //       _handleDeleteItem(context, orderModel, foo);
+                //     },
+                //     backgroundColor: context.colorScheme.error,
+                //     foregroundColor: Colors.white,
+                //     icon: Icons.delete_forever)
+              ]),
+          child: _buildItem(context, foo)),
+    );
   }
 
   void _handleDeleteItem(
@@ -74,7 +170,12 @@ class CartScreen extends StatelessWidget {
               var newListOrder = [...orderModel.foods];
               newListOrder
                   .removeWhere((element) => element.foodID == foo.foodID);
-              orderModel = orderModel.copyWith(foods: newListOrder);
+              double newTotalPrice = newListOrder.fold(
+                  0,
+                  (double total, currentFood) =>
+                      total + currentFood.totalPrice);
+              orderModel = orderModel.copyWith(
+                  foods: newListOrder, totalPrice: newTotalPrice);
               context.read<CartCubit>().onCartChanged(orderModel);
               context.pop();
             },
@@ -135,12 +236,15 @@ class CartScreen extends StatelessWidget {
   }
 
   Widget _buildQuality(BuildContext context, FoodOrder foodOrder) {
-    var quantity = foodOrder.quantity;
+    var quantity = ValueNotifier(foodOrder.quantity);
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       // LineText(title: "Số lượng: ", value: food.quantity.toString()),
       InkWell(
           onTap: () {
-            // _handleDecrement(food, foodDto, quantity)
+            if (quantity.value > 1) {
+              quantity.value--;
+              _handleUpdateFood(context, quantity.value, foodOrder);
+            }
           },
           child: Container(
               height: 20,
@@ -148,14 +252,17 @@ class CartScreen extends StatelessWidget {
               decoration: BoxDecoration(
                   shape: BoxShape.circle, color: context.colorScheme.secondary),
               child: const Icon(Icons.remove, size: 20))),
-      Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 5),
-          child: Text('$quantity',
-              style: context.textStyleSmall!
-                  .copyWith(fontWeight: FontWeight.bold))),
+      ValueListenableBuilder(
+          valueListenable: quantity,
+          builder: (context, value, child) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              child: Text(value.toString(),
+                  style: context.textStyleSmall!
+                      .copyWith(fontWeight: FontWeight.bold)))),
       InkWell(
           onTap: () {
-            //  _handleIncrement(food, foodDto, quantity)
+            quantity.value++;
+            _handleUpdateFood(context, quantity.value, foodOrder);
           },
           child: Container(
               height: 20,
@@ -164,6 +271,33 @@ class CartScreen extends StatelessWidget {
                   shape: BoxShape.circle, color: context.colorScheme.secondary),
               child: const Icon(Icons.add, size: 20)))
     ]);
+  }
+
+  void _handleUpdateFood(
+      BuildContext context, int quantity, FoodOrder foodOrder) {
+    int index = cartState.foods
+        .indexWhere((element) => element.foodID == foodOrder.foodID);
+
+    if (index != -1) {
+      var existingFoodOrder = cartState.foods[index];
+      var updatedFoodOrder = existingFoodOrder.copyWith(
+          quantity: quantity,
+          totalPrice: quantity *
+              Ultils.foodPrice(
+                  isDiscount: existingFoodOrder.isDiscount,
+                  foodPrice: existingFoodOrder.foodPrice,
+                  discount: int.parse(existingFoodOrder.discount.toString())));
+
+      List<FoodOrder> updatedFoods = List.from(cartState.foods);
+      updatedFoods[index] = updatedFoodOrder;
+      double newTotalPrice = updatedFoods.fold(
+          0, (double total, currentFood) => total + currentFood.totalPrice);
+      cartState =
+          cartState.copyWith(foods: updatedFoods, totalPrice: newTotalPrice);
+      context.read<CartCubit>().onCartChanged(cartState);
+
+      logger.d(updatedFoods);
+    } else {}
   }
 }
 

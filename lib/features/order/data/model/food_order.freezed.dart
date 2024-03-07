@@ -24,6 +24,9 @@ mixin _$FoodOrder {
   String get foodName => throw _privateConstructorUsedError;
   String get foodImage => throw _privateConstructorUsedError;
   int get quantity => throw _privateConstructorUsedError;
+  bool get isDiscount => throw _privateConstructorUsedError;
+  num get discount => throw _privateConstructorUsedError;
+  num get foodPrice => throw _privateConstructorUsedError;
   String get note => throw _privateConstructorUsedError;
   num get totalPrice => throw _privateConstructorUsedError;
 
@@ -43,6 +46,9 @@ abstract class $FoodOrderCopyWith<$Res> {
       String foodName,
       String foodImage,
       int quantity,
+      bool isDiscount,
+      num discount,
+      num foodPrice,
       String note,
       num totalPrice});
 }
@@ -64,6 +70,9 @@ class _$FoodOrderCopyWithImpl<$Res, $Val extends FoodOrder>
     Object? foodName = null,
     Object? foodImage = null,
     Object? quantity = null,
+    Object? isDiscount = null,
+    Object? discount = null,
+    Object? foodPrice = null,
     Object? note = null,
     Object? totalPrice = null,
   }) {
@@ -84,6 +93,18 @@ class _$FoodOrderCopyWithImpl<$Res, $Val extends FoodOrder>
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
               as int,
+      isDiscount: null == isDiscount
+          ? _value.isDiscount
+          : isDiscount // ignore: cast_nullable_to_non_nullable
+              as bool,
+      discount: null == discount
+          ? _value.discount
+          : discount // ignore: cast_nullable_to_non_nullable
+              as num,
+      foodPrice: null == foodPrice
+          ? _value.foodPrice
+          : foodPrice // ignore: cast_nullable_to_non_nullable
+              as num,
       note: null == note
           ? _value.note
           : note // ignore: cast_nullable_to_non_nullable
@@ -109,6 +130,9 @@ abstract class _$$FoodOrderImplCopyWith<$Res>
       String foodName,
       String foodImage,
       int quantity,
+      bool isDiscount,
+      num discount,
+      num foodPrice,
       String note,
       num totalPrice});
 }
@@ -128,6 +152,9 @@ class __$$FoodOrderImplCopyWithImpl<$Res>
     Object? foodName = null,
     Object? foodImage = null,
     Object? quantity = null,
+    Object? isDiscount = null,
+    Object? discount = null,
+    Object? foodPrice = null,
     Object? note = null,
     Object? totalPrice = null,
   }) {
@@ -148,6 +175,18 @@ class __$$FoodOrderImplCopyWithImpl<$Res>
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
               as int,
+      isDiscount: null == isDiscount
+          ? _value.isDiscount
+          : isDiscount // ignore: cast_nullable_to_non_nullable
+              as bool,
+      discount: null == discount
+          ? _value.discount
+          : discount // ignore: cast_nullable_to_non_nullable
+              as num,
+      foodPrice: null == foodPrice
+          ? _value.foodPrice
+          : foodPrice // ignore: cast_nullable_to_non_nullable
+              as num,
       note: null == note
           ? _value.note
           : note // ignore: cast_nullable_to_non_nullable
@@ -168,6 +207,9 @@ class _$FoodOrderImpl implements _FoodOrder {
       this.foodName = '',
       this.foodImage = '',
       this.quantity = 1,
+      this.isDiscount = false,
+      this.discount = 0,
+      this.foodPrice = 0,
       this.note = '',
       this.totalPrice = 0});
 
@@ -188,6 +230,15 @@ class _$FoodOrderImpl implements _FoodOrder {
   final int quantity;
   @override
   @JsonKey()
+  final bool isDiscount;
+  @override
+  @JsonKey()
+  final num discount;
+  @override
+  @JsonKey()
+  final num foodPrice;
+  @override
+  @JsonKey()
   final String note;
   @override
   @JsonKey()
@@ -195,7 +246,7 @@ class _$FoodOrderImpl implements _FoodOrder {
 
   @override
   String toString() {
-    return 'FoodOrder(foodID: $foodID, foodName: $foodName, foodImage: $foodImage, quantity: $quantity, note: $note, totalPrice: $totalPrice)';
+    return 'FoodOrder(foodID: $foodID, foodName: $foodName, foodImage: $foodImage, quantity: $quantity, isDiscount: $isDiscount, discount: $discount, foodPrice: $foodPrice, note: $note, totalPrice: $totalPrice)';
   }
 
   @override
@@ -210,6 +261,12 @@ class _$FoodOrderImpl implements _FoodOrder {
                 other.foodImage == foodImage) &&
             (identical(other.quantity, quantity) ||
                 other.quantity == quantity) &&
+            (identical(other.isDiscount, isDiscount) ||
+                other.isDiscount == isDiscount) &&
+            (identical(other.discount, discount) ||
+                other.discount == discount) &&
+            (identical(other.foodPrice, foodPrice) ||
+                other.foodPrice == foodPrice) &&
             (identical(other.note, note) || other.note == note) &&
             (identical(other.totalPrice, totalPrice) ||
                 other.totalPrice == totalPrice));
@@ -217,8 +274,8 @@ class _$FoodOrderImpl implements _FoodOrder {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, foodID, foodName, foodImage, quantity, note, totalPrice);
+  int get hashCode => Object.hash(runtimeType, foodID, foodName, foodImage,
+      quantity, isDiscount, discount, foodPrice, note, totalPrice);
 
   @JsonKey(ignore: true)
   @override
@@ -240,6 +297,9 @@ abstract class _FoodOrder implements FoodOrder {
       final String foodName,
       final String foodImage,
       final int quantity,
+      final bool isDiscount,
+      final num discount,
+      final num foodPrice,
       final String note,
       final num totalPrice}) = _$FoodOrderImpl;
 
@@ -254,6 +314,12 @@ abstract class _FoodOrder implements FoodOrder {
   String get foodImage;
   @override
   int get quantity;
+  @override
+  bool get isDiscount;
+  @override
+  num get discount;
+  @override
+  num get foodPrice;
   @override
   String get note;
   @override

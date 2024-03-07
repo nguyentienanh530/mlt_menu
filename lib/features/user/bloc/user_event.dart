@@ -3,7 +3,7 @@ part of 'user_bloc.dart';
 sealed class UserEvent {}
 
 final class UserCreated extends UserEvent {
-  final User user;
+  final UserModel user;
 
   UserCreated({required this.user});
 }
@@ -22,7 +22,7 @@ final class UserFecthed extends UserEvent {
 }
 
 final class UserUpdated extends UserEvent {
-  final User user;
+  final UserModel user;
 
   UserUpdated({required this.user});
 }

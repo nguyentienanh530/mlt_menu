@@ -36,6 +36,16 @@ class OrderRepository {
   //   }
   // }
 
+  Future<void> createOrder({required Map<String, dynamic> dataJson}) async {
+    try {
+      var documentReference =
+          await _firebaseFirestore.collection('orders').add(dataJson);
+      await updateOrder(jsonData: {'id': documentReference.id});
+    } catch (e) {
+      throw '$e';
+    }
+  }
+
   Future<QuerySnapshot<Map<String, dynamic>>> getOrders(
       {required String tableID}) async {
     try {

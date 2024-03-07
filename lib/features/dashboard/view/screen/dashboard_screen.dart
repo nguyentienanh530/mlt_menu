@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mlt_menu/common/bloc/generic_bloc_state.dart';
+import 'package:mlt_menu/common/widget/loading_screen.dart';
 import 'package:mlt_menu/core/config/router.dart';
 import 'package:mlt_menu/core/utils/utils.dart';
 import 'package:mlt_menu/features/banner/bloc/banner_bloc.dart';
+import 'package:mlt_menu/features/cart/cubit/cart_cubit.dart';
 import 'package:mlt_menu/features/category/bloc/category_bloc.dart';
 import 'package:mlt_menu/features/dashboard/view/widget/categories.dart';
+import 'package:mlt_menu/features/table/cubit/table_cubit.dart';
+import 'package:mlt_menu/features/user/bloc/user_bloc.dart';
 import '../widget/new_food.dart';
 import '../widget/popular_food.dart';
 import '../widget/slider.dart';
+import 'package:badges/badges.dart' as badges;
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -19,7 +25,8 @@ class DashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(providers: [
       BlocProvider(create: (context) => BannerBloc()),
-      BlocProvider(create: (context) => CategoryBloc())
+      BlocProvider(create: (context) => CategoryBloc()),
+      // BlocProvider(create: (_) => UserBloc())
     ], child: const DashboardView());
   }
 }
@@ -33,7 +40,6 @@ class DashboardView extends StatefulWidget {
 
 class _DashboardViewState extends State<DashboardView>
     with AutomaticKeepAliveClientMixin {
-  var isShowSearch = ValueNotifier(false);
   @override
   void initState() {
     getData();
@@ -50,37 +56,93 @@ class _DashboardViewState extends State<DashboardView>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-        appBar: _buildAppbar(), body: SafeArea(child: _buildBody()));
+        floatingActionButton: _buildFloatingButton(),
+        appBar: _buildAppbar(),
+        body: SafeArea(child: _buildBody()));
+  }
+
+  Widget _buildFloatingButton() {
+    var cart = context.watch<CartCubit>().state;
+    return FloatingActionButton.small(
+        backgroundColor: context.colorScheme.secondary,
+        onPressed: () => context.push(RouteName.cartScreen),
+        child: Padding(
+            padding: const EdgeInsets.all(5),
+            child: badges.Badge(
+                badgeStyle: badges.BadgeStyle(
+                    badgeColor: context.colorScheme.errorContainer),
+                position: badges.BadgePosition.topEnd(top: -14),
+                badgeContent: Text(cart.foods.length.toString(),
+                    style: context.textStyleSmall!
+                        .copyWith(fontWeight: FontWeight.bold)),
+                child: SvgPicture.asset('assets/icon/shopping_cart.svg',
+                    colorFilter: const ColorFilter.mode(
+                        Colors.white, BlendMode.srcIn)))));
   }
 
   _buildAppbar() => AppBar(
           title: Text('Minh Long Menu Food', style: context.textStyleLarge),
           actions: [
-            Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                height: 30,
-                // width: 30,
-                decoration: BoxDecoration(
-                    color: context.colorScheme.secondary,
-                    borderRadius: BorderRadius.circular(16)),
-                child: Text('table',
-                    style: context.textStyleSmall!
-                        .copyWith(fontWeight: FontWeight.bold))),
+            _buildTableButton(),
             const SizedBox(width: 8),
-            GestureDetector(
-              onTap: () => context.push(RouteName.profile),
-              child: Container(
-                  height: 30,
-                  width: 30,
-                  decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                          image: NetworkImage(
-                              'https://firebasestorage.googleapis.com/v0/b/mltmenu.appspot.com/o/food%2F2024-03-02%2015%3A35%3A46.683212%2B%223%22.png?alt=media&token=76008777-8c02-4e4c-844d-f4fdc25f144b')))),
-            ),
+            _buildProfile(),
             const SizedBox(width: 16)
           ]);
+
+  Widget _buildProfile() {
+    var userState = context.watch<UserBloc>().state;
+
+    return (switch (userState.status) {
+      Status.loading => const LoadingScreen(),
+      Status.failure => _buildErrorImage(),
+      Status.empty => _buildErrorImage(),
+      Status.success => GestureDetector(
+          onTap: () => context.push(RouteName.profile, extra: userState.data),
+          child: Container(
+              height: 30,
+              width: 30,
+              clipBehavior: Clip.hardEdge,
+              decoration: const BoxDecoration(shape: BoxShape.circle),
+              child: Image.network(
+                  userState.data == null || userState.data!.image.isEmpty
+                      ? noImage
+                      : userState.data!.image,
+                  loadingBuilder: (context, child, loadingProgress) =>
+                      loadingProgress == null ? child : const LoadingScreen())))
+    });
+  }
+
+  Widget _buildErrorImage() => GestureDetector(
+      onTap: () => context.push(RouteName.profile),
+      child: Container(
+          height: 30,
+          width: 30,
+          clipBehavior: Clip.hardEdge,
+          decoration: const BoxDecoration(shape: BoxShape.circle),
+          child: Image.asset('assets/icon/user.svg')));
+
+  Widget _buildTableButton() {
+    final table = context.watch<TableCubit>().state;
+    return SizedBox(
+        height: 30,
+        // width: 60,
+        child: FilledButton.icon(
+            style: ButtonStyle(
+                backgroundColor:
+                    MaterialStatePropertyAll(context.colorScheme.secondary)),
+            onPressed: () {
+              context.push(RouteName.tableScreen);
+            },
+            label: Text(table.name.isEmpty ? 'Chọn bàn ăn' : table.name,
+                style: context.textStyleSmall!
+                    .copyWith(fontWeight: FontWeight.bold)),
+            icon: SizedBox(
+                height: 20,
+                width: 20,
+                child: SvgPicture.asset('assets/icon/dinner_table.svg',
+                    colorFilter: const ColorFilter.mode(
+                        Colors.white, BlendMode.srcIn)))));
+  }
 
   Widget _buildBody() {
     return SingleChildScrollView(

@@ -36,11 +36,11 @@ class Ultils {
     return outputFormat.format(dateTime);
   }
 
-  static String tableStatus(String tableStatus) {
-    switch (tableStatus) {
-      case 'available':
+  static String tableStatus(bool isUse) {
+    switch (isUse) {
+      case false:
         return 'Trống';
-      case 'occupied':
+      case true:
         return 'Sử dụng';
       default:
         return 'Trống';

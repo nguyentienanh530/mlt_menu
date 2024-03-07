@@ -7,6 +7,7 @@ import 'package:mlt_menu/features/food/view/screen/food_on_category.dart';
 import 'package:mlt_menu/features/food/view/screen/food_screen.dart';
 import 'package:mlt_menu/features/food/view/screen/new_food_screen.dart';
 import 'package:mlt_menu/features/food/view/screen/popular_food_screen.dart';
+import 'package:mlt_menu/features/table/view/screen/table_screen.dart';
 import 'package:mlt_menu/features/user/view/screen/profile_screen.dart';
 import '../../features/auth/bloc/auth_bloc.dart';
 import '../../features/category/data/model/category_model.dart';
@@ -32,6 +33,7 @@ class RouteName {
   static const String printSeting = '/printSeting';
   static const String foodOnCategory = '/foodOnCategory';
   static const String cartScreen = '/cartScreen';
+  static const String tableScreen = '/tableScreen';
 
   static const publicRoutes = [login, register];
 }
@@ -94,5 +96,12 @@ final router = GoRouter(
 
       GoRoute(
           path: RouteName.profile,
-          builder: (context, state) => const ProfileScreen()),
+          builder: (context, state) {
+            final UserModel userModel =
+                GoRouterState.of(context).extra as UserModel;
+            return ProfileScreen(userModel: userModel);
+          }),
+      GoRoute(
+          path: RouteName.tableScreen,
+          builder: (context, state) => const TableScreen()),
     ]);

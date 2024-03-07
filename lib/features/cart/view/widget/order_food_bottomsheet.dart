@@ -5,10 +5,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mlt_menu/common/dialog/app_alerts.dart';
 import 'package:mlt_menu/common/widget/common_text_field.dart';
-import 'package:mlt_menu/core/config/config.dart';
 import 'package:mlt_menu/features/cart/cubit/cart_cubit.dart';
 import 'package:mlt_menu/features/order/data/model/food_order.dart';
 import 'package:mlt_menu/features/order/data/model/order_model.dart';
+import 'package:mlt_menu/features/table/cubit/table_cubit.dart';
+import 'package:mlt_menu/features/table/data/model/table_model.dart';
 import '../../../../core/utils/utils.dart';
 import '../../../food/data/model/food_model.dart';
 
@@ -49,17 +50,26 @@ class _OrderFoodBottomSheetState extends State<OrderFoodBottomSheet> {
   @override
   Widget build(BuildContext context) {
     var order = context.watch<CartCubit>().state;
+    final table = context.watch<TableCubit>().state;
     return SizedBox(
         height: context.sizeDevice.height * 0.8,
         child: Form(
             child: Column(children: [
           AppBar(
-              backgroundColor: context.colorScheme.primaryContainer,
-              centerTitle: true,
-              title: Text(_foodModel.name,
-                  textAlign: TextAlign.center,
-                  style: context.textStyleLarge!
-                      .copyWith(fontWeight: FontWeight.bold))),
+            automaticallyImplyLeading: false,
+            backgroundColor: context.colorScheme.primaryContainer,
+            centerTitle: true,
+            title: Text(_foodModel.name,
+                textAlign: TextAlign.center,
+                style: context.textStyleLarge!
+                    .copyWith(fontWeight: FontWeight.bold)),
+            actions: [
+              IconButton(
+                  iconSize: 20,
+                  onPressed: () => context.pop(),
+                  icon: const Icon(Icons.highlight_remove_rounded))
+            ],
+          ),
           Expanded(
               child: SingleChildScrollView(
                   child: Padding(
@@ -95,19 +105,17 @@ class _OrderFoodBottomSheetState extends State<OrderFoodBottomSheet> {
                   child: Column(children: [
                     _buildTotalPrice(),
                     const SizedBox(height: 8),
-                    _buildButtonAddToCart(order)
+                    _buildButtonAddToCart(order, table)
                   ])))
         ])));
   }
 
-  void _handleOnTapAddToCart(OrderModel order) async {
-    var table = '1MLT';
-
-    if (table == '') {
+  void _handleOnTapAddToCart(OrderModel order, TableModel table) async {
+    if (table.name.isEmpty) {
       AppAlerts.warningDialog(context,
           desc: AppString.dontSelectTable,
-          textCancel: AppString.ok, btnCancelOnPress: () {
-        context.go(RouteName.home);
+          textOk: AppString.ok, btnOkOnPress: () {
+        pop(context, 1);
       });
     } else {
       if (checkExistFood(order)) {
@@ -120,10 +128,19 @@ class _OrderFoodBottomSheetState extends State<OrderFoodBottomSheet> {
             foodName: _foodModel.name,
             quantity: _quantity.value,
             totalPrice: _totalPrice.value,
-            note: _noteCtrl.text);
+            note: _noteCtrl.text,
+            discount: _foodModel.discount,
+            foodPrice: _foodModel.price,
+            isDiscount: _foodModel.isDiscount);
         var newFoods = [...order.foods, newFoodOrder];
-        order =
-            order.copyWith(tableName: table, foods: newFoods, status: 'new');
+        double newTotalPrice = newFoods.fold(
+            0, (double total, currentFood) => total + currentFood.totalPrice);
+        order = order.copyWith(
+            tableName: table.name,
+            tableID: table.id,
+            foods: newFoods,
+            status: 'new',
+            totalPrice: newTotalPrice);
         context.read<CartCubit>().onCartChanged(order);
         context.pop();
         fToast.showToast(
@@ -143,11 +160,11 @@ class _OrderFoodBottomSheetState extends State<OrderFoodBottomSheet> {
     return isExist;
   }
 
-  Widget _buildButtonAddToCart(OrderModel orderModel) {
+  Widget _buildButtonAddToCart(OrderModel orderModel, TableModel tableModel) {
     return InkWell(
         onTap: () {
           // _.formKey.currentState!.save();
-          _handleOnTapAddToCart(orderModel);
+          _handleOnTapAddToCart(orderModel, tableModel);
         },
         child: Container(
             height: 50,

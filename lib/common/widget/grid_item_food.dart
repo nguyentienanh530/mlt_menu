@@ -114,7 +114,6 @@ class GridItemFood extends StatelessWidget {
           //     useRootNavigator: true);
 
           showModalBottomSheet(
-              barrierLabel: 'ádasdasdas',
               context: context,
               isScrollControlled: true,
               builder: (context) => OrderFoodBottomSheet(foodModel: food));

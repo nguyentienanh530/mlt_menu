@@ -3,22 +3,16 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../../../common/bloc/bloc_helper.dart';
-import '../../../../common/bloc/generic_bloc_state.dart';
 import '../../../../common/widget/common_bottomsheet.dart';
 import '../../../../core/config/config.dart';
 import '../../../../core/utils/utils.dart';
 import '../../../auth/bloc/auth_bloc.dart';
-import '../../../../common/widget/empty_screen.dart';
-import '../../../../common/widget/error_screen.dart';
-import '../../../../common/widget/loading_screen.dart';
 import '../../bloc/user_bloc.dart';
 import '../../data/model/user_model.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
-
+  const ProfileScreen({super.key, required this.userModel});
+  final UserModel userModel;
   @override
   State<ProfileScreen> createState() => _ProfileState();
 }
@@ -26,21 +20,10 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileState extends State<ProfileScreen>
     with AutomaticKeepAliveClientMixin {
   @override
-  void initState() {
-    getUser();
-    super.initState();
-  }
-
-  getUser() {
-    if (!mounted) return;
-    var userID = context.read<AuthBloc>().state.user.id;
-    context.read<UserBloc>().add(UserFecthed(userID: userID));
-  }
-
-  @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Scaffold(appBar: _buildAppbar(), body: const ProfileView());
+    return Scaffold(
+        appBar: _buildAppbar(), body: ProfileView(userModel: widget.userModel));
   }
 
   _buildAppbar() => AppBar(
@@ -48,36 +31,23 @@ class _ProfileState extends State<ProfileScreen>
       title: Text('Thông tin', style: context.textStyleLarge));
 
   @override
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => false;
 }
 
-class ProfileView extends StatefulWidget {
-  const ProfileView({super.key});
-
-  @override
-  State<ProfileView> createState() => _ProfileViewState();
-}
-
-class _ProfileViewState extends State<ProfileView> {
+class ProfileView extends StatelessWidget {
+  const ProfileView({super.key, required this.userModel});
+  final UserModel userModel;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Padding(
             padding: EdgeInsets.all(defaultPadding),
-            child: BlocBuilder<UserBloc, GenericBlocState<UserModel>>(
-                buildWhen: (previous, current) =>
-                    context.read<UserBloc>().operation == ApiOperation.select,
-                builder: (context, state) {
-                  return (switch (state.status) {
-                    Status.loading => const LoadingScreen(),
-                    Status.failure => ErrorScreen(errorMsg: state.error),
-                    Status.empty => const EmptyScreen(),
-                    Status.success => _buildBody(state.data ?? UserModel())
-                  });
-                })));
+            child: Builder(builder: (context) {
+              return _buildBody(context, userModel);
+            })));
   }
 
-  Widget _buildBody(UserModel user) {
+  Widget _buildBody(BuildContext context, UserModel user) {
     return Column(
         children: [
       _CardProfife(user: user),
@@ -87,7 +57,7 @@ class _ProfileViewState extends State<ProfileView> {
         _ItemProfile(
             svgPath: 'assets/icon/user_config.svg',
             title: 'Cập nhật thông tin',
-            onTap: () => _handleUserUpdated(user)),
+            onTap: () => _handleUserUpdated(context, user)),
         _ItemProfile(
             svgPath: 'assets/icon/lock.svg',
             title: 'Đổi mật khẩu',
@@ -99,7 +69,7 @@ class _ProfileViewState extends State<ProfileView> {
         _ItemProfile(
             svgPath: 'assets/icon/logout.svg',
             title: 'Đăng xuất',
-            onTap: () => _handleLogout())
+            onTap: () => _handleLogout(context))
       ])))
     ]
             .animate(interval: 50.ms)
@@ -111,10 +81,9 @@ class _ProfileViewState extends State<ProfileView> {
             .fadeIn(curve: Curves.easeInOutCubic, duration: 500.ms));
   }
 
-  _handleUserUpdated(UserModel user) async {
+  _handleUserUpdated(BuildContext context, UserModel user) async {
     var result = await context.push<bool>(RouteName.updateUser, extra: user);
     if (result is bool && result) {
-      if (!mounted) return;
       var userID = context.read<AuthBloc>().state.user.id;
       context.read<UserBloc>().add(UserFecthed(userID: userID));
     }
@@ -130,7 +99,7 @@ class _ProfileViewState extends State<ProfileView> {
     //     });
   }
 
-  _handleLogout() {
+  _handleLogout(BuildContext context) {
     showModalBottomSheet<void>(
         context: context,
         builder: (context) => CommonBottomSheet(

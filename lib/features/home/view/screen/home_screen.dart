@@ -5,12 +5,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mlt_menu/core/utils/utils.dart';
-import 'package:mlt_menu/features/cart/view/screen/cart_screen.dart';
+// import 'package:mlt_menu/features/cart/view/screen/cart_screen.dart';
 
 import '../../../auth/bloc/auth_bloc.dart';
 import '../../../dashboard/view/screen/dashboard_screen.dart';
 import '../../../user/bloc/user_bloc.dart';
-import '../../../user/view/screen/profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -37,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
     var userID = _getUserID();
     logger.d(userID);
     _handelUpdate(userID, token!);
+    // _getUser(userID);
   }
 
   String _getUserID() {
@@ -47,11 +47,18 @@ class _HomeScreenState extends State<HomeScreen> {
     context.read<UserBloc>().add(UpdateToken(userID: userID, token: token));
   }
 
+  _getUser(String userID) {
+    context.read<UserBloc>().add(UserFecthed(userID: userID));
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        bottomNavigationBar: _buildBottomBar(context),
-        body: HomeView(controller: controller));
+    return BlocProvider(
+      create: (context) => UserBloc()..add(UserFecthed(userID: _getUserID())),
+      child: Scaffold(
+          // bottomNavigationBar: _buildBottomBar(context),
+          body: HomeView(controller: controller)),
+    );
   }
 
   Widget _buildBottomBar(BuildContext context) {
@@ -133,17 +140,18 @@ class HomeView extends StatelessWidget {
   final PageController controller;
   @override
   Widget build(BuildContext context) {
-    return PageView(
-        physics: const NeverScrollableScrollPhysics(),
-        controller: controller,
-        children: _widgetOptions);
+    return const DashboardScreen();
+    // return PageView(
+    //     physics: const NeverScrollableScrollPhysics(),
+    //     controller: controller,
+    //     children: _widgetOptions);
   }
 
-  final List<Widget> _widgetOptions = [
-    const DashboardScreen(),
-    // const OrderScreen(),
-    // const FoodScreen(),
-    // const TableScreen(),
-    const CartScreen()
-  ];
+  // final List<Widget> _widgetOptions = [
+  //   const DashboardScreen(),
+  //   // const OrderScreen(),
+  //   // const FoodScreen(),
+  //   // const TableScreen(),
+  //   const CartScreen()
+  // ];
 }

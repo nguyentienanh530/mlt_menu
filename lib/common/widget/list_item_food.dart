@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mlt_menu/common/widget/cart_button.dart';
 import 'package:mlt_menu/common/widget/loading_screen.dart';
 import 'package:mlt_menu/core/config/config.dart';
-
 import '../../core/utils/utils.dart';
+import '../../features/cart/view/widget/order_food_bottomsheet.dart';
 import '../../features/food/data/model/food_model.dart';
 
 // import 'package:get/get.dart';
@@ -72,7 +71,7 @@ class ListItemFood extends StatelessWidget {
                 Expanded(
                     child: FittedBox(
                         alignment: Alignment.bottomRight,
-                        child: _buildButtonCart(food)))
+                        child: _buildButtonCart(context, food)))
               ])
         : Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -108,21 +107,17 @@ class ListItemFood extends StatelessWidget {
                 Expanded(
                     child: FittedBox(
                         alignment: Alignment.bottomRight,
-                        child: _buildButtonCart(food)))
+                        child: _buildButtonCart(context, food)))
               ]);
   }
 
-  Widget _buildButtonCart(FoodModel food) {
+  Widget _buildButtonCart(BuildContext context, FoodModel food) {
     return GestureDetector(
         onTap: () {
-          // Get.toNamed(Routes.order, arguments: {'food': food});
-          // Get.bottomSheet(
-          //     SizedBox(
-          //         height: size.height * 0.75, child: OrderPage(food: food)),
-          //     ignoreSafeArea: false,
-          //     isScrollControlled: true,
-          //     enableDrag: false,
-          //     useRootNavigator: true);
+          showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              builder: (context) => OrderFoodBottomSheet(foodModel: food));
         },
         child: SvgPicture.asset('assets/icon/cart.svg',
             height: 20,

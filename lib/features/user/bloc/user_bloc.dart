@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:user_repository/user_repository.dart';
-
 import '../../../common/bloc/bloc_helper.dart';
 import '../../../common/bloc/generic_bloc_state.dart';
 import '../data/model/user_model.dart';
@@ -11,10 +10,9 @@ import '../data/provider/remote/user_repo.dart';
 part 'user_event.dart';
 
 typedef Emit = Emitter<GenericBlocState<UserModel>>;
-typedef User = UserModel;
 
-class UserBloc extends Bloc<UserEvent, GenericBlocState<User>>
-    with BlocHelper<User> {
+class UserBloc extends Bloc<UserEvent, GenericBlocState<UserModel>>
+    with BlocHelper<UserModel> {
   UserBloc() : super(GenericBlocState.loading()) {
     on<UserCreated>(_createUser);
     on<UpdateToken>(_updateToken);
@@ -42,8 +40,7 @@ class UserBloc extends Bloc<UserEvent, GenericBlocState<User>>
     await getItem(_userRepository.getUser(userID: event.userID), emit);
   }
 
-  FutureOr<void> _updateUser(
-      UserUpdated event, Emitter<GenericBlocState<User>> emit) async {
+  FutureOr<void> _updateUser(UserUpdated event, Emit emit) async {
     await updateItem(_userRepository.updateUser(user: event.user), emit);
   }
 
@@ -54,8 +51,7 @@ class UserBloc extends Bloc<UserEvent, GenericBlocState<User>>
         emit);
   }
 
-  FutureOr<void> _fetchUsers(
-      UsersFetched event, Emitter<GenericBlocState<User>> emit) async {
+  FutureOr<void> _fetchUsers(UsersFetched event, Emit emit) async {
     await getItems(_userRepository.getUsers(), emit);
   }
 }

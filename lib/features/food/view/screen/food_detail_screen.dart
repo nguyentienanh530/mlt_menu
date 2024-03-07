@@ -1,9 +1,10 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mlt_menu/common/widget/cart_button.dart';
 import 'package:mlt_menu/common/widget/loading_screen.dart';
 import 'package:mlt_menu/core/config/config.dart';
-import '../../../../common/widget/common_bottomsheet.dart';
+import 'package:mlt_menu/features/cart/view/widget/order_food_bottomsheet.dart';
 import '../../../../core/utils/utils.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:readmore/readmore.dart';
@@ -71,42 +72,26 @@ class _FoodDetailViewState extends State<FoodDetailView> {
                           curve: Curves.easeInOutCubic, duration: 500.ms)))),
       Container(
           padding: EdgeInsets.all(defaultPadding),
-          height: 150,
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 // _buildUpdateFood(context, food),
-                _buildDeleteFood(context, food)
+                _buildAddToCart(context, food)
               ]))
     ]);
   }
 
-  Widget _buildDeleteFood(BuildContext context, FoodModel food) {
-    return InkWell(
-        onTap: () {
-          showModalBottomSheet<void>(
+  Widget _buildAddToCart(BuildContext context, FoodModel food) {
+    return AnimatedButton(
+        pressEvent: () {
+          showModalBottomSheet(
               context: context,
-              builder: (BuildContext context) {
-                return SizedBox(
-                    // height: 200,
-                    child: CommonBottomSheet(
-                        title: "Bạn có muốn xóa món ăn này không?",
-                        textConfirm: 'Xóa',
-                        textCancel: "Hủy",
-                        textConfirmColor: context.colorScheme.errorContainer,
-                        onCancel: () {
-                          context.pop();
-                        },
-                        onConfirm: () {}));
-              });
+              isScrollControlled: true,
+              builder: (context) => OrderFoodBottomSheet(foodModel: food));
         },
-        child: Container(
-            height: 50.0,
-            width: double.infinity,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(defaultBorderRadius),
-                color: context.colorScheme.errorContainer),
-            child: Center(child: Text("Xoá", style: context.textStyleMedium))));
+        color: context.colorScheme.primary,
+        text: 'Thêm giỏ hàng',
+        buttonTextStyle: context.textStyleMedium);
   }
 
   Widget _buildDescription(BuildContext context, FoodModel food) {
