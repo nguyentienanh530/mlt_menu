@@ -1,5 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -70,7 +71,8 @@ class CardView extends StatelessWidget {
       title: Text('Giỏ hàng', style: context.textStyleLarge));
 
   Widget _buildBody(BuildContext context, OrderModel orderModel) {
-    return Column(children: [
+    return Column(
+        children: [
       Expanded(
           child: ListView.builder(
               physics: const BouncingScrollPhysics(),
@@ -102,7 +104,14 @@ class CardView extends StatelessWidget {
                         .copyWith(fontWeight: FontWeight.bold),
                     pressEvent: () => submitCreateOrder(context))
               ])))
-    ]);
+    ]
+            .animate(interval: 50.ms)
+            .slideX(
+                begin: -0.1,
+                end: 0,
+                curve: Curves.easeInOutCubic,
+                duration: 500.ms)
+            .fadeIn(curve: Curves.easeInOutCubic, duration: 500.ms));
   }
 
   void submitCreateOrder(BuildContext context) {
