@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mlt_menu/features/cart/view/widget/order_food_bottomsheet.dart';
 import '../../core/config/config.dart';
 import '../../core/utils/utils.dart';
 import '../../features/food/data/model/food_model.dart';
+import 'loading_screen.dart';
 
 class GridItemFood extends StatelessWidget {
   final List<FoodModel>? list;
@@ -13,11 +15,14 @@ class GridItemFood extends StatelessWidget {
   const GridItemFood({super.key, required this.list, this.isScroll = false});
   Widget _buildImage(FoodModel food) {
     return Container(
+        clipBehavior: Clip.hardEdge,
+        width: double.infinity,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(defaultBorderRadius),
-            image: DecorationImage(
-                image: NetworkImage(food.image == "" ? noImage : food.image),
-                fit: BoxFit.cover)));
+            borderRadius: BorderRadius.circular(defaultBorderRadius)),
+        child: Image.network(food.image == "" ? noImage : food.image,
+            loadingBuilder: (context, child, loadingProgress) =>
+                loadingProgress == null ? child : const LoadingScreen(),
+            fit: BoxFit.cover));
   }
 
   Widget _buildPercentDiscount(BuildContext context, FoodModel food) {
@@ -185,7 +190,16 @@ class GridItemFood extends StatelessWidget {
                                               child: _buildPriceDiscount(
                                                   context, foodModel))
                                         ])))
-                          ])),
+                          ]
+                              .animate(interval: 50.ms)
+                              .slideX(
+                                  begin: -0.1,
+                                  end: 0,
+                                  curve: Curves.easeInOutCubic,
+                                  duration: 500.ms)
+                              .fadeIn(
+                                  curve: Curves.easeInOutCubic,
+                                  duration: 500.ms))),
                 )));
   }
 

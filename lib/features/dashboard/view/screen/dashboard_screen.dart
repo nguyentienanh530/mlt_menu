@@ -3,16 +3,17 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mlt_menu/common/bloc/generic_bloc_state.dart';
 import 'package:mlt_menu/common/widget/loading_screen.dart';
 import 'package:mlt_menu/core/config/router.dart';
 import 'package:mlt_menu/core/utils/utils.dart';
+import 'package:mlt_menu/features/auth/bloc/auth_bloc.dart';
 import 'package:mlt_menu/features/banner/bloc/banner_bloc.dart';
 import 'package:mlt_menu/features/cart/cubit/cart_cubit.dart';
 import 'package:mlt_menu/features/category/bloc/category_bloc.dart';
 import 'package:mlt_menu/features/dashboard/view/widget/categories.dart';
 import 'package:mlt_menu/features/table/cubit/table_cubit.dart';
 import 'package:mlt_menu/features/user/bloc/user_bloc.dart';
+import 'package:mlt_menu/features/user/cubit/user_cubit.dart';
 import '../widget/new_food.dart';
 import '../widget/popular_food.dart';
 import '../widget/slider.dart';
@@ -26,7 +27,6 @@ class DashboardScreen extends StatelessWidget {
     return MultiBlocProvider(providers: [
       BlocProvider(create: (context) => BannerBloc()),
       BlocProvider(create: (context) => CategoryBloc()),
-      // BlocProvider(create: (_) => UserBloc())
     ], child: const DashboardView());
   }
 }
@@ -50,6 +50,9 @@ class _DashboardViewState extends State<DashboardView>
     if (!mounted) return;
     context.read<BannerBloc>().add(BannerFecthed());
     context.read<CategoryBloc>().add(CategoryFetched());
+    context
+        .read<UserBloc>()
+        .add(UserFecthed(userID: context.read<AuthBloc>().state.user.id));
   }
 
   @override
@@ -90,26 +93,23 @@ class _DashboardViewState extends State<DashboardView>
           ]);
 
   Widget _buildProfile() {
-    var userState = context.watch<UserBloc>().state;
+    var user = context.watch<UserCubit>().state;
 
-    return (switch (userState.status) {
-      Status.loading => const LoadingScreen(),
-      Status.failure => _buildErrorImage(),
-      Status.empty => _buildErrorImage(),
-      Status.success => GestureDetector(
-          onTap: () => context.push(RouteName.profile, extra: userState.data),
-          child: Container(
-              height: 30,
-              width: 30,
-              clipBehavior: Clip.hardEdge,
-              decoration: const BoxDecoration(shape: BoxShape.circle),
-              child: Image.network(
-                  userState.data == null || userState.data!.image.isEmpty
-                      ? noImage
-                      : userState.data!.image,
-                  loadingBuilder: (context, child, loadingProgress) =>
-                      loadingProgress == null ? child : const LoadingScreen())))
-    });
+    return GestureDetector(
+        onTap: () {
+          context.push(RouteName.profile, extra: user);
+        },
+        child: Container(
+            height: 30,
+            width: 30,
+            clipBehavior: Clip.hardEdge,
+            decoration: BoxDecoration(
+                border: Border.all(color: context.colorScheme.primary),
+                shape: BoxShape.circle),
+            child: Image.network(user.image.isEmpty ? noImage : user.image,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, loadingProgress) =>
+                    loadingProgress == null ? child : const LoadingScreen())));
   }
 
   Widget _buildErrorImage() => GestureDetector(

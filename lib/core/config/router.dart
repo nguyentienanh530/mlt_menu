@@ -7,6 +7,7 @@ import 'package:mlt_menu/features/food/view/screen/food_on_category.dart';
 import 'package:mlt_menu/features/food/view/screen/food_screen.dart';
 import 'package:mlt_menu/features/food/view/screen/new_food_screen.dart';
 import 'package:mlt_menu/features/food/view/screen/popular_food_screen.dart';
+import 'package:mlt_menu/features/print/view/screen/print_screen.dart';
 import 'package:mlt_menu/features/table/view/screen/table_screen.dart';
 import 'package:mlt_menu/features/user/view/screen/profile_screen.dart';
 import '../../features/auth/bloc/auth_bloc.dart';
@@ -15,7 +16,7 @@ import '../../features/home/view/screen/home_screen.dart';
 import '../../features/login/view/screen/login_screen.dart';
 import '../../features/register/view/screen/signup_screen.dart';
 import '../../features/user/data/model/user_model.dart';
-// import '../features/user/view/screen/change_password.dart';
+import '../../features/user/view/screen/change_password.dart';
 import '../../features/user/view/screen/update_user.dart';
 
 class RouteName {
@@ -52,7 +53,6 @@ final router = GoRouter(
       GoRoute(
           path: RouteName.home,
           builder: (context, state) => const HomeScreen()),
-
       GoRoute(
           path: RouteName.login,
           builder: (context, state) => const LoginScreen()),
@@ -74,9 +74,9 @@ final router = GoRouter(
             final foodModel = GoRouterState.of(context).extra as FoodModel;
             return FoodDetailScreen(food: foodModel);
           }),
-      // GoRoute(
-      //     path: RouteName.changePassword,
-      //     builder: (context, state) => ChangePassword()),
+      GoRoute(
+          path: RouteName.changePassword,
+          builder: (context, state) => const ChangePassword()),
       GoRoute(
           path: RouteName.updateUser,
           builder: (context, state) {
@@ -93,7 +93,6 @@ final router = GoRouter(
       GoRoute(
           path: RouteName.cartScreen,
           builder: (context, state) => const CartScreen()),
-
       GoRoute(
           path: RouteName.profile,
           builder: (context, state) {
@@ -104,4 +103,7 @@ final router = GoRouter(
       GoRoute(
           path: RouteName.tableScreen,
           builder: (context, state) => const TableScreen()),
+      GoRoute(
+          path: RouteName.printSeting,
+          builder: (context, state) => const PrintScreen()),
     ]);

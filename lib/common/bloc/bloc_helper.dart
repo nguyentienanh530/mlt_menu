@@ -18,7 +18,7 @@ mixin BlocHelper<T> {
         emit(GenericBlocState.failure(failure));
       },
       success: (_) {
-        emit(GenericBlocState.success());
+        emit(GenericBlocState.updateOrDeleteSuccess());
       },
     );
   }

@@ -3,6 +3,10 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mlt_menu/features/print/cubit/is_use_print_cubit.dart';
+import 'package:mlt_menu/features/print/data/print_data_source/print_data_source.dart';
+import 'package:mlt_menu/features/user/cubit/user_cubit.dart';
+
 import '../../../../common/widget/common_bottomsheet.dart';
 import '../../../../core/config/config.dart';
 import '../../../../core/utils/utils.dart';
@@ -10,44 +14,32 @@ import '../../../auth/bloc/auth_bloc.dart';
 import '../../bloc/user_bloc.dart';
 import '../../data/model/user_model.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key, required this.userModel});
+// ignore: must_be_immutable
+class ProfileScreen extends StatelessWidget {
+  ProfileScreen({super.key, required this.userModel});
   final UserModel userModel;
-  @override
-  State<ProfileScreen> createState() => _ProfileState();
-}
-
-class _ProfileState extends State<ProfileScreen>
-    with AutomaticKeepAliveClientMixin {
+  var isUsePrint = ValueNotifier(false);
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-    return Scaffold(
-        appBar: _buildAppbar(), body: ProfileView(userModel: widget.userModel));
+    return Scaffold(appBar: _buildAppbar(context), body: _buildBody(context));
   }
 
-  _buildAppbar() => AppBar(
+  _buildAppbar(BuildContext context) => AppBar(
       centerTitle: true,
       title: Text('Thông tin', style: context.textStyleLarge));
 
-  @override
-  bool get wantKeepAlive => false;
-}
-
-class ProfileView extends StatelessWidget {
-  const ProfileView({super.key, required this.userModel});
-  final UserModel userModel;
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-        child: Padding(
-            padding: EdgeInsets.all(defaultPadding),
-            child: Builder(builder: (context) {
-              return _buildBody(context, userModel);
-            })));
+  Widget _buildBody(BuildContext context) {
+    return Builder(builder: (context) {
+      var a = context.select((UserCubit userCubit) => userCubit).state;
+      logger.d(a);
+      return SafeArea(
+          child: Padding(
+              padding: EdgeInsets.all(defaultPadding),
+              child: _buildListAction(context, a)));
+    });
   }
 
-  Widget _buildBody(BuildContext context, UserModel user) {
+  Widget _buildListAction(BuildContext context, UserModel user) {
     return Column(
         children: [
       _CardProfife(user: user),
@@ -62,10 +54,7 @@ class ProfileView extends StatelessWidget {
             svgPath: 'assets/icon/lock.svg',
             title: 'Đổi mật khẩu',
             onTap: () => context.push(RouteName.changePassword)),
-        _ItemProfile(
-            svgPath: 'assets/icon/print.svg',
-            title: 'Cài đặt máy in',
-            onTap: () => context.push(RouteName.printSeting)),
+        _buildItemPrint(context),
         _ItemProfile(
             svgPath: 'assets/icon/logout.svg',
             title: 'Đăng xuất',
@@ -81,22 +70,53 @@ class ProfileView extends StatelessWidget {
             .fadeIn(curve: Curves.easeInOutCubic, duration: 500.ms));
   }
 
-  _handleUserUpdated(BuildContext context, UserModel user) async {
-    var result = await context.push<bool>(RouteName.updateUser, extra: user);
-    if (result is bool && result) {
-      var userID = context.read<AuthBloc>().state.user.id;
-      context.read<UserBloc>().add(UserFecthed(userID: userID));
-    }
-    // late UserModel newUser;
-    // late File imageFile;
-    // bool isUpdate = await updateUserDialog(
-    //     user: user,
-    //     type: Type.update,
-    //     context: context,
-    //     userData: (userModel, image) {
-    //       newUser = userModel;
-    //       imageFile = image;
-    //     });
+  Widget _buildItemPrint(BuildContext context) {
+    var isUsePrint = context.watch<IsUsePrintCubit>().state;
+
+    return Column(children: [
+      GestureDetector(
+          onTap: () {},
+          child: Card(
+              child: SizedBox(
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                Row(children: [
+                  Padding(
+                      padding: EdgeInsets.all(defaultPadding),
+                      child: SvgPicture.asset('assets/icon/print.svg',
+                          colorFilter: ColorFilter.mode(
+                              context.colorScheme.primary, BlendMode.srcIn))),
+                  Text('Sử dụng máy in', style: context.textStyleSmall)
+                ]),
+                Transform.scale(
+                    scale: 0.8,
+                    child: Switch(
+                        activeTrackColor: context.colorScheme.secondary,
+                        value: isUsePrint,
+                        onChanged: (value) {
+                          context
+                              .read<IsUsePrintCubit>()
+                              .onUsePrintChanged(value);
+                          PrintDataSource.setIsUsePrint(value);
+                        }))
+              ])))),
+      isUsePrint
+          ? _ItemProfile(
+              svgPath: 'assets/icon/file_setting.svg',
+              title: 'Cấu hình máy in',
+              onTap: () => context.push(RouteName.printSeting))
+          : const SizedBox()
+    ]);
+  }
+
+  _handleUserUpdated(BuildContext context, UserModel user) {
+    context.push<bool>(RouteName.updateUser, extra: user);
+  }
+
+  refreshUserData(BuildContext context) {
+    var userID = context.read<AuthBloc>().state.user.id;
+    context.read<UserBloc>().add(UserFecthed(userID: userID));
   }
 
   _handleLogout(BuildContext context) {

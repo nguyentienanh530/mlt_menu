@@ -1,37 +1,28 @@
 part of 'user_bloc.dart';
 
-sealed class UserEvent {}
+class UserEvent {}
 
-final class UserCreated extends UserEvent {
-  final UserModel user;
-
-  UserCreated({required this.user});
-}
-
-final class UpdateToken extends UserEvent {
-  final String userID;
-  final String token;
-
-  UpdateToken({required this.userID, required this.token});
-}
-
-final class UserFecthed extends UserEvent {
+class UserFecthed extends UserEvent {
   final String userID;
 
   UserFecthed({required this.userID});
 }
 
-final class UserUpdated extends UserEvent {
+class UserCreated extends UserEvent {
+  final UserModel user;
+
+  UserCreated({required this.user});
+}
+
+class UserUpdated extends UserEvent {
   final UserModel user;
 
   UserUpdated({required this.user});
 }
 
-final class PasswordChanged extends UserEvent {
-  PasswordChanged({required this.currentPassword, required this.newPassword});
-
+class PasswordChanged extends UserEvent {
   final String currentPassword;
   final String newPassword;
-}
 
-final class UsersFetched extends UserEvent {}
+  PasswordChanged({required this.currentPassword, required this.newPassword});
+}

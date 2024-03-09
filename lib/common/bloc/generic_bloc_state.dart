@@ -50,4 +50,7 @@ class GenericBlocState<T> with _$GenericBlocState<T> {
   factory GenericBlocState.success({List<T>? datas, T? data}) =>
       GenericBlocState<T>()
           .copyWith(status: Status.success, datas: datas, data: data);
+
+  factory GenericBlocState.updateOrDeleteSuccess() =>
+      GenericBlocState<T>().copyWith(status: Status.success);
 }

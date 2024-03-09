@@ -13,6 +13,8 @@ dependencies:
     path: packages/form_inputs
   table_repository:
     path: packages/table_repository
+  print_repository:
+    path: packages/print_repository
   order_repository:
     path: packages/order_repository
   food_repository:

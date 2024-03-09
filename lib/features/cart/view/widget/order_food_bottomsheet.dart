@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:food_repository/food_repository.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mlt_menu/common/dialog/app_alerts.dart';
 import 'package:mlt_menu/common/widget/common_text_field.dart';
@@ -142,6 +144,10 @@ class _OrderFoodBottomSheetState extends State<OrderFoodBottomSheet> {
             status: 'new',
             totalPrice: newTotalPrice);
         context.read<CartCubit>().onCartChanged(order);
+        FoodRepository(firebaseFirestore: FirebaseFirestore.instance)
+            .updateFood(
+                foodID: newFoodOrder.foodID,
+                data: {'count': FieldValue.increment(1)});
         context.pop();
         fToast.showToast(
             child: AppAlerts.successToast(msg: AppString.addedToCart));

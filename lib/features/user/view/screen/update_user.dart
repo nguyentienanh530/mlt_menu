@@ -1,12 +1,9 @@
-import 'dart:io';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
-
+import 'package:mlt_menu/features/user/cubit/user_cubit.dart';
 import '../../../../common/bloc/generic_bloc_state.dart';
 import '../../../../common/dialog/app_alerts.dart';
 import '../../../../common/dialog/progress_dialog.dart';
@@ -35,7 +32,8 @@ class _UpdateUserDialogState extends State<UpdateUser> {
   final TextEditingController nameCtrl = TextEditingController();
   final TextEditingController phoneCtrl = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  File? _imageFile;
+  // ignore: prefer_typing_uninitialized_variables
+  var _imageFile;
   var _isLoading = false;
 
   @override
@@ -50,28 +48,11 @@ class _UpdateUserDialogState extends State<UpdateUser> {
     super.initState();
   }
 
-  Future pickImage() async {
-    final imagePicker = ImagePicker();
-    var imagepicked = await imagePicker.pickImage(
-        source: ImageSource.gallery, maxHeight: 500, maxWidth: 500);
-    if (imagepicked != null) {
-      setState(() {
-        _imageFile = File(imagepicked.path);
-      });
-    } else {
-      logger.d('No image selected!');
-    }
-  }
-
-  Future _uploadPicture() async {
-    Reference storageReference =
-        FirebaseStorage.instance.ref().child('profile/${DateTime.now()}+"1"');
-    UploadTask uploadTask = storageReference.putFile(_imageFile!);
-    await uploadTask.whenComplete(() async {
-      var url = await storageReference.getDownloadURL();
-      var imageUrl = url.toString();
-      _image = imageUrl;
-    });
+  @override
+  void dispose() {
+    nameCtrl.dispose();
+    phoneCtrl.dispose();
+    super.dispose();
   }
 
   @override
@@ -129,7 +110,9 @@ class _UpdateUserDialogState extends State<UpdateUser> {
         top: context.sizeDevice.width * 0.3 - 25,
         left: (context.sizeDevice.width * 0.3 - 20) / 2,
         child: GestureDetector(
-            onTap: () => pickImage(),
+            onTap: () async => await pickImage().then((value) => setState(() {
+                  _imageFile = value;
+                })),
             child: const Icon(Icons.camera_alt_rounded)));
   }
 
@@ -150,7 +133,10 @@ class _UpdateUserDialogState extends State<UpdateUser> {
       setState(() {
         _isLoading = true;
       });
-      _imageFile != null ? await _uploadPicture() : null;
+      if (_imageFile != null) {
+        _image = await uploadImage(path: 'profile', file: _imageFile);
+      }
+
       var newUser = widget.user.copyWith(
           image: _image, name: nameCtrl.text, phoneNumber: phoneCtrl.text);
       logger.i(newUser);
@@ -178,6 +164,7 @@ class _UpdateUserDialogState extends State<UpdateUser> {
                       Status.success => ProgressDialog(
                           descriptrion: "Cập nhật thành công!",
                           onPressed: () {
+                            context.read<UserCubit>().onUserChanged(user);
                             setState(() {
                               _isLoading = false;
                             });

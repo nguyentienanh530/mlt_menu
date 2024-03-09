@@ -28,6 +28,7 @@ mixin _$FoodModel {
   num get discount => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
   bool get isDiscount => throw _privateConstructorUsedError;
+  bool get isShowFood => throw _privateConstructorUsedError;
   List<dynamic> get photoGallery => throw _privateConstructorUsedError;
   num get price => throw _privateConstructorUsedError;
   String get createAt => throw _privateConstructorUsedError;
@@ -52,6 +53,7 @@ abstract class $FoodModelCopyWith<$Res> {
       num discount,
       String image,
       bool isDiscount,
+      bool isShowFood,
       List<dynamic> photoGallery,
       num price,
       String createAt});
@@ -78,6 +80,7 @@ class _$FoodModelCopyWithImpl<$Res, $Val extends FoodModel>
     Object? discount = null,
     Object? image = null,
     Object? isDiscount = null,
+    Object? isShowFood = null,
     Object? photoGallery = null,
     Object? price = null,
     Object? createAt = null,
@@ -115,6 +118,10 @@ class _$FoodModelCopyWithImpl<$Res, $Val extends FoodModel>
           ? _value.isDiscount
           : isDiscount // ignore: cast_nullable_to_non_nullable
               as bool,
+      isShowFood: null == isShowFood
+          ? _value.isShowFood
+          : isShowFood // ignore: cast_nullable_to_non_nullable
+              as bool,
       photoGallery: null == photoGallery
           ? _value.photoGallery
           : photoGallery // ignore: cast_nullable_to_non_nullable
@@ -148,6 +155,7 @@ abstract class _$$FoodModelImplCopyWith<$Res>
       num discount,
       String image,
       bool isDiscount,
+      bool isShowFood,
       List<dynamic> photoGallery,
       num price,
       String createAt});
@@ -172,6 +180,7 @@ class __$$FoodModelImplCopyWithImpl<$Res>
     Object? discount = null,
     Object? image = null,
     Object? isDiscount = null,
+    Object? isShowFood = null,
     Object? photoGallery = null,
     Object? price = null,
     Object? createAt = null,
@@ -209,6 +218,10 @@ class __$$FoodModelImplCopyWithImpl<$Res>
           ? _value.isDiscount
           : isDiscount // ignore: cast_nullable_to_non_nullable
               as bool,
+      isShowFood: null == isShowFood
+          ? _value.isShowFood
+          : isShowFood // ignore: cast_nullable_to_non_nullable
+              as bool,
       photoGallery: null == photoGallery
           ? _value._photoGallery
           : photoGallery // ignore: cast_nullable_to_non_nullable
@@ -237,6 +250,7 @@ class _$FoodModelImpl implements _FoodModel {
       this.discount = 0,
       this.image = '',
       this.isDiscount = false,
+      this.isShowFood = false,
       final List<dynamic> photoGallery = const [],
       this.price = 0,
       this.createAt = ''})
@@ -269,6 +283,9 @@ class _$FoodModelImpl implements _FoodModel {
   @override
   @JsonKey()
   final bool isDiscount;
+  @override
+  @JsonKey()
+  final bool isShowFood;
   final List<dynamic> _photoGallery;
   @override
   @JsonKey()
@@ -287,7 +304,7 @@ class _$FoodModelImpl implements _FoodModel {
 
   @override
   String toString() {
-    return 'FoodModel(id: $id, name: $name, categoryID: $categoryID, count: $count, description: $description, discount: $discount, image: $image, isDiscount: $isDiscount, photoGallery: $photoGallery, price: $price, createAt: $createAt)';
+    return 'FoodModel(id: $id, name: $name, categoryID: $categoryID, count: $count, description: $description, discount: $discount, image: $image, isDiscount: $isDiscount, isShowFood: $isShowFood, photoGallery: $photoGallery, price: $price, createAt: $createAt)';
   }
 
   @override
@@ -307,6 +324,8 @@ class _$FoodModelImpl implements _FoodModel {
             (identical(other.image, image) || other.image == image) &&
             (identical(other.isDiscount, isDiscount) ||
                 other.isDiscount == isDiscount) &&
+            (identical(other.isShowFood, isShowFood) ||
+                other.isShowFood == isShowFood) &&
             const DeepCollectionEquality()
                 .equals(other._photoGallery, _photoGallery) &&
             (identical(other.price, price) || other.price == price) &&
@@ -326,6 +345,7 @@ class _$FoodModelImpl implements _FoodModel {
       discount,
       image,
       isDiscount,
+      isShowFood,
       const DeepCollectionEquality().hash(_photoGallery),
       price,
       createAt);
@@ -354,6 +374,7 @@ abstract class _FoodModel implements FoodModel {
       final num discount,
       final String image,
       final bool isDiscount,
+      final bool isShowFood,
       final List<dynamic> photoGallery,
       final num price,
       final String createAt}) = _$FoodModelImpl;
@@ -377,6 +398,8 @@ abstract class _FoodModel implements FoodModel {
   String get image;
   @override
   bool get isDiscount;
+  @override
+  bool get isShowFood;
   @override
   List<dynamic> get photoGallery;
   @override

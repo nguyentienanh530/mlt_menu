@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
@@ -5,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:mlt_menu/features/print/data/model/print_model.dart';
 
 import 'utils.dart';
 
@@ -56,6 +59,38 @@ class Ultils {
 
     return isDiscount ? discountedPrice : foodPrice;
   }
+
+  static Future<void> sendPrintRequest(
+      {PrintModel? print, List? listDataPrint}) async {
+    log('$listDataPrint');
+    final socket = await Socket.connect(print!.ip, int.parse(print.port));
+    log('Connected to: ${socket.remoteAddress.address}:${socket.remotePort}');
+
+    // Gửi lệnh đến server
+    socket.writeln(listDataPrint!);
+
+    // Đọc phản hồi từ server
+    socket.listen(
+      (List<int> data) {
+        final serverResponse = utf8.decode(data);
+        log('Server response: $serverResponse');
+
+        // Cập nhật UI khi nhận được phản hồi từ server
+
+        // Đặt lại trạng thái của nút sau 5 giây
+        Future.delayed(const Duration(seconds: 5), () {});
+
+        socket.close(); // Đóng kết nối sau khi nhận phản hồi
+      },
+      onDone: () {
+        log('Server disconnected.');
+      },
+      onError: (error) {
+        log('Error: $error');
+      },
+      cancelOnError: true,
+    );
+  }
 }
 
 Future pop(BuildContext context, int returnedLevel) async {
@@ -66,8 +101,9 @@ Future pop(BuildContext context, int returnedLevel) async {
 
 Future<String> uploadImage({required String path, required File file}) async {
   var image = '';
-  Reference storageReference =
-      FirebaseStorage.instance.ref().child('$path${file.path.split('/').last}');
+  Reference storageReference = FirebaseStorage.instance
+      .ref()
+      .child('$path/${file.path.split('/').last}');
   UploadTask uploadTask = storageReference.putFile(file);
   await uploadTask.whenComplete(() async {
     var url = await storageReference.getDownloadURL();

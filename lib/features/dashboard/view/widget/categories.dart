@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mlt_menu/common/widget/error_widget.dart';
 import 'package:mlt_menu/common/widget/loading_screen.dart';
 import 'package:mlt_menu/core/config/config.dart';
 import 'package:mlt_menu/core/utils/utils.dart';
@@ -17,9 +18,10 @@ class Categories extends StatelessWidget {
     var categoriesState = context.watch<CategoryBloc>().state;
     return (switch (categoriesState.status) {
       Status.loading => const LoadingScreen(),
-      Status.empty => Center(child: Text('', style: context.textStyleSmall)),
-      Status.failure => Center(
-          child: Text(categoriesState.error!, style: context.textStyleSmall)),
+      Status.empty =>
+        Center(child: Text('Không có dữ liệu', style: context.textStyleSmall)),
+      Status.failure =>
+        ErrorWidgetCustom(errorMessage: categoriesState.error ?? ''),
       Status.success => GridView.builder(
           shrinkWrap: true,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

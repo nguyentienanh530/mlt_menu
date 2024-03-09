@@ -13,6 +13,7 @@ class FoodModel with _$FoodModel {
       @Default(0) num discount,
       @Default('') String image,
       @Default(false) bool isDiscount,
+      @Default(false) bool isShowFood,
       @Default([]) List photoGallery,
       @Default(0) num price,
       @Default('') String createAt}) = _FoodModel;

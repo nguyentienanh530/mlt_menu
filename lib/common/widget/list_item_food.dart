@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mlt_menu/common/widget/loading_screen.dart';
@@ -19,15 +20,14 @@ class ListItemFood extends StatelessWidget {
   const ListItemFood({super.key, required this.list});
   Widget _buildImage(FoodModel food) {
     return Container(
-      clipBehavior: Clip.hardEdge,
-      width: double.infinity,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(defaultBorderRadius)),
-      child: Image.network(food.image == "" ? noImage : food.image,
-          loadingBuilder: (context, child, loadingProgress) =>
-              loadingProgress == null ? child : const LoadingScreen(),
-          fit: BoxFit.cover),
-    );
+        clipBehavior: Clip.hardEdge,
+        width: double.infinity,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(defaultBorderRadius)),
+        child: Image.network(food.image == "" ? noImage : food.image,
+            loadingBuilder: (context, child, loadingProgress) =>
+                loadingProgress == null ? child : const LoadingScreen(),
+            fit: BoxFit.cover));
   }
 
   Widget _buildPercentDiscount(BuildContext context, FoodModel food) {
@@ -183,7 +183,16 @@ class ListItemFood extends StatelessWidget {
                                               child: _buildPriceDiscount(
                                                   context, foodModel))
                                         ])))
-                          ])),
+                          ]
+                              .animate(interval: 50.ms)
+                              .slideX(
+                                  begin: -0.1,
+                                  end: 0,
+                                  curve: Curves.easeInOutCubic,
+                                  duration: 500.ms)
+                              .fadeIn(
+                                  curve: Curves.easeInOutCubic,
+                                  duration: 500.ms))),
                 )));
   }
 

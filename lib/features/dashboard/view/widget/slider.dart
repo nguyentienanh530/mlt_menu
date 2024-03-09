@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mlt_menu/common/widget/error_widget.dart';
 import 'package:mlt_menu/common/widget/loading_screen.dart';
 import 'package:mlt_menu/core/utils/utils.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -20,7 +21,7 @@ class SliderImage extends StatelessWidget {
       Status.empty =>
         Center(child: Text('empty', style: context.textStyleSmall)),
       Status.failure =>
-        Center(child: Text(bannerState.error!, style: context.textStyleSmall)),
+        ErrorWidgetCustom(errorMessage: bannerState.error ?? ''),
       Status.success => SizedBox(
           width: context.sizeDevice.width,
           child: ValueListenableBuilder(

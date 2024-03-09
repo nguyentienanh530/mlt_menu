@@ -15,9 +15,13 @@ import 'package:mlt_menu/features/cart/cubit/cart_cubit.dart';
 import 'package:mlt_menu/features/order/bloc/order_bloc.dart';
 import 'package:mlt_menu/features/order/data/model/food_order.dart';
 import 'package:mlt_menu/features/order/data/model/order_model.dart';
+import 'package:mlt_menu/features/print/cubit/is_use_print_cubit.dart';
+import 'package:mlt_menu/features/print/cubit/print_cubit.dart';
 import 'package:mlt_menu/features/table/cubit/table_cubit.dart';
 import '../../../../core/utils/utils.dart';
+import '../../../print/data/model/print_model.dart';
 import '../../../table/bloc/table_bloc.dart';
+import '../../../table/data/model/table_model.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -36,6 +40,8 @@ class CardView extends StatelessWidget {
   Widget build(BuildContext context) {
     cartState = context.watch<CartCubit>().state;
     var table = context.watch<TableCubit>().state;
+    var isUsePrint = context.watch<IsUsePrintCubit>().state;
+    var print = context.watch<PrintCubit>().state;
     return Scaffold(
         appBar: _buildAppbar(context),
         body: cartState.foods.isEmpty
@@ -58,12 +64,34 @@ class CardView extends StatelessWidget {
                           context
                               .read<TableBloc>()
                               .add(TableUpdated(tableModel: table));
+                          _handlePrint(context,
+                              cartState: cartState,
+                              isUsePrint: isUsePrint,
+                              print: print,
+                              table: table);
                           context.read<CartCubit>().onCartClear();
                           context.read<TableCubit>().onTableClear();
+
                           pop(context, 2);
                         }, desc: 'Cảm ơn quý khách!')
                     },
                 child: _buildBody(context, cartState)));
+  }
+
+  void _handlePrint(BuildContext context,
+      {required OrderModel cartState,
+      required TableModel table,
+      required bool isUsePrint,
+      required PrintModel print}) {
+    if (isUsePrint) {
+      var listPrint = [];
+      for (var element in cartState.foods) {
+        listPrint
+            .add('${table.name} - ${element.foodName} - ${element.quantity}');
+      }
+      logger.d(listPrint);
+      Ultils.sendPrintRequest(print: print, listDataPrint: listPrint);
+    }
   }
 
   _buildAppbar(BuildContext context) => AppBar(

@@ -2,7 +2,10 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mlt_menu/features/cart/cubit/cart_cubit.dart';
+import 'package:mlt_menu/features/print/cubit/is_use_print_cubit.dart';
+import 'package:mlt_menu/features/print/cubit/print_cubit.dart';
 import 'package:mlt_menu/features/table/cubit/table_cubit.dart';
+import 'package:mlt_menu/features/user/cubit/user_cubit.dart';
 
 import '../features/auth/bloc/auth_bloc.dart';
 import '../features/order/bloc/order_bloc.dart';
@@ -29,6 +32,9 @@ class MainApp extends StatelessWidget {
           BlocProvider(create: (_) => CartCubit()),
           BlocProvider(create: (_) => OrderBloc()),
           BlocProvider(create: (_) => TableCubit()),
+          BlocProvider(create: (_) => UserCubit()),
+          BlocProvider(create: (_) => PrintCubit()),
+          BlocProvider(create: (_) => IsUsePrintCubit())
         ], child: const AppView()));
   }
 }
