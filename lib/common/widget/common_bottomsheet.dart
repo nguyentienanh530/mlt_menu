@@ -25,6 +25,7 @@ class CommonBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
+        width: double.infinity,
         height: context.sizeDevice.height * 0.2,
         child: Column(children: [
           Expanded(flex: 2, child: _buildConfirm()),
@@ -49,15 +50,14 @@ class CommonBottomSheet extends StatelessWidget {
                           Text(title ?? "", style: CommonTextStyle.normal())))),
           Container(height: 1, color: kTextColor.withOpacity(0.3)),
           Expanded(
-            child: GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: onConfirm,
-                child: Container(
-                    alignment: Alignment.center,
-                    child: Text(textConfirm ?? "Ok",
-                        style: CommonTextStyle.bold(
-                            textColor: textConfirmColor ?? kTextColor)))),
-          )
+              child: GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: onConfirm,
+                  child: Container(
+                      alignment: Alignment.center,
+                      child: Text(textConfirm ?? "Ok",
+                          style: CommonTextStyle.bold(
+                              textColor: textConfirmColor ?? kTextColor)))))
         ]));
   }
 
