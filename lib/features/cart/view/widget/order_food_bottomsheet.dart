@@ -149,8 +149,10 @@ class _OrderFoodBottomSheetState extends State<OrderFoodBottomSheet> {
                 foodID: newFoodOrder.foodID,
                 data: {'count': FieldValue.increment(1)});
         context.pop();
-        fToast.showToast(
-            child: AppAlerts.successToast(msg: AppString.addedToCart));
+        fToast
+          ..removeQueuedCustomToasts()
+          ..showToast(
+              child: AppAlerts.successToast(msg: AppString.addedToCart));
       }
     }
   }

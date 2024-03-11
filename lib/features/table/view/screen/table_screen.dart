@@ -55,16 +55,18 @@ class TableView extends StatelessWidget {
   }
 
   Widget _buildItemTable(BuildContext context, TableModel table) {
-    final fToast = FToast()..init(context);
+    // final fToast = FToast()..init(context);
     return GestureDetector(
         onTap: () {
-          if (!table.isUse) {
-            context.read<TableCubit>().onTableChanged(table);
-            context.pop();
-          } else {
-            fToast.showToast(
-                child: AppAlerts.errorToast(msg: 'Bàn đang được sử dụng'));
-          }
+          context.read<TableCubit>().onTableChanged(table);
+          context.pop();
+          // if (!table.isUse) {
+          //   context.read<TableCubit>().onTableChanged(table);
+          //   context.pop();
+          // } else {
+          //   fToast.showToast(
+          //       child: AppAlerts.errorToast(msg: 'Bàn đang được sử dụng'));
+          // }
         },
         child: Card(
             color: table.isUse ? Colors.green.shade700 : null,

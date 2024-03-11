@@ -24,8 +24,10 @@ class PrintDataSource {
 
   static Future<PrintModel?> getPrint() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    var data = prefs.getString('PRINT_KEY');
-
-    return PrintModel.fromJson(jsonDecode(data ?? ''));
+    var data = prefs.getString('PRINT_KEY') ?? '';
+    if (data.isEmpty) {
+      return PrintModel();
+    }
+    return PrintModel.fromJson(jsonDecode(data));
   }
 }
