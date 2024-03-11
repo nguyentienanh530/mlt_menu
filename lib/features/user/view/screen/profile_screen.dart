@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -120,14 +121,13 @@ class ProfileScreen extends StatelessWidget {
   }
 
   _handleLogout(BuildContext context) {
-    showModalBottomSheet<void>(
+    showCupertinoModalPopup<void>(
         context: context,
         builder: (context) => CommonBottomSheet(
             title: 'Chắc chắn muốn đăng xuất?',
             textCancel: 'Hủy',
             textConfirm: 'Đăng xuất',
             textConfirmColor: context.colorScheme.errorContainer,
-            onCancel: () => context.pop(),
             onConfirm: () {
               context.read<AuthBloc>().add(const AuthLogoutRequested());
               context.go(RouteName.login);

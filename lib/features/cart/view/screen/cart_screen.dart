@@ -1,4 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -143,14 +144,31 @@ class CardView extends StatelessWidget {
   }
 
   void submitCreateOrder(BuildContext context) {
-    showModalBottomSheet(
+    showCupertinoModalPopup(
         context: context,
-        builder: (context) => CommonBottomSheet(
-            title: 'Kiểm tra kĩ trước khi lên đơn',
-            textCancel: AppString.cancel,
-            textConfirm: '${AppString.ok} lên đơn',
-            onCancel: () => context.pop(),
-            onConfirm: () => _handleCreateOrder(context)));
+        builder: (context) => CupertinoActionSheet(
+                cancelButton: CupertinoActionSheetAction(
+                    isDestructiveAction: true,
+                    onPressed: () => context.pop(),
+                    child: Text(AppString.cancel)),
+                title: Text('Kiểm tra kĩ trước khi lên đơn',
+                    style: context.titleStyleSmall),
+                actions: [
+                  CupertinoActionSheetAction(
+                      isDefaultAction: true,
+                      onPressed: () => _handleCreateOrder(context),
+                      child: Text('${AppString.ok} lên đơn'))
+                ]));
+
+    // showModalBottomSheet(
+    //     backgroundColor: Colors.transparent,
+    //     context: context,
+    //     builder: (context) => CommonBottomSheet(
+    //         title: 'Kiểm tra kĩ trước khi lên đơn',
+    //         textCancel: AppString.cancel,
+    //         textConfirm: '${AppString.ok} lên đơn',
+    //         onCancel: () => context.pop(),
+    //         onConfirm: () => _handleCreateOrder(context)));
   }
 
   void _handleCreateOrder(BuildContext context) {
@@ -196,13 +214,12 @@ class CardView extends StatelessWidget {
 
   void _handleDeleteItem(
       BuildContext context, OrderModel orderModel, FoodOrder foo) {
-    showModalBottomSheet(
+    showCupertinoModalPopup(
         context: context,
         builder: (context) => CommonBottomSheet(
             title: 'Xóa món "${foo.foodName}"?',
             textCancel: AppString.cancel,
             textConfirm: AppString.ok,
-            onCancel: () => context.pop(),
             onConfirm: () {
               var newListOrder = [...orderModel.foods];
               newListOrder
