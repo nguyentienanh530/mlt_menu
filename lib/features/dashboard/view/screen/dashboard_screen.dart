@@ -66,7 +66,7 @@ class _DashboardViewState extends State<DashboardView>
 
   Widget _buildFloatingButton() {
     var cart = context.watch<CartCubit>().state;
-    return FloatingActionButton.small(
+    return FloatingActionButton(
         backgroundColor: context.colorScheme.secondary,
         onPressed: () => context.push(RouteName.cartScreen),
         child: Padding(
@@ -84,7 +84,7 @@ class _DashboardViewState extends State<DashboardView>
   }
 
   _buildAppbar() => AppBar(
-          title: Text('Minh Long Menu Food', style: context.textStyleLarge),
+          title: Text('Minh Long Menu Food', style: context.titleStyleMedium),
           actions: [
             _buildTableButton(),
             const SizedBox(width: 8),
@@ -205,7 +205,7 @@ class _DashboardViewState extends State<DashboardView>
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Text(title,
-              style: context.textStyleLarge!
+              style: context.titleStyleMedium!
                   .copyWith(fontWeight: FontWeight.bold)),
           GestureDetector(
               onTap: onTap,

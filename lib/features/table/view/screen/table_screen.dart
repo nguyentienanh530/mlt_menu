@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mlt_menu/common/bloc/generic_bloc_state.dart';
-import 'package:mlt_menu/common/dialog/app_alerts.dart';
 import 'package:mlt_menu/common/widget/empty_screen.dart';
 import 'package:mlt_menu/common/widget/error_screen.dart';
 import 'package:mlt_menu/common/widget/loading_screen.dart';
@@ -75,18 +73,15 @@ class TableView extends StatelessWidget {
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _buildString(table.name, context.textStyleMedium!),
-                      _buildString(
-                          table.seats.toString(), context.textStyleSmall!),
-                      _buildString(Ultils.tableStatus(table.isUse),
-                          context.textStyleMedium!)
+                      _buildString(table.name),
+                      _buildString(table.seats.toString()),
+                      _buildString(Ultils.tableStatus(table.isUse))
                     ]))));
   }
 
-  Widget _buildString(String value, TextStyle style) =>
-      FittedBox(child: Text(value, style: style));
+  Widget _buildString(String value) => FittedBox(child: Text(value));
 
   _buildAppbar(BuildContext context) => AppBar(
       centerTitle: true,
-      title: Text('Danh sách bàn', style: context.textStyleMedium));
+      title: Text('Danh sách bàn', style: context.titleStyleMedium));
 }

@@ -35,14 +35,14 @@ class GridItemFood extends StatelessWidget {
                 bottomRight: Radius.circular(defaultBorderRadius),
                 topLeft: Radius.circular(defaultBorderRadius))),
         child: Center(
-            child: Text("${food.discount}%", style: context.textStyleSmall)));
+            child: Text("${food.discount}%",
+                style: const TextStyle(fontWeight: FontWeight.bold))));
   }
 
   Widget _buildTitle(BuildContext context, FoodModel food) {
     return FittedBox(
         alignment: Alignment.centerLeft,
-        child: Text(food.name,
-            overflow: TextOverflow.ellipsis, style: context.textStyleSmall));
+        child: Text(food.name, overflow: TextOverflow.ellipsis));
   }
 
   Widget _buildPriceDiscount(BuildContext context, FoodModel food) {
@@ -60,7 +60,7 @@ class GridItemFood extends StatelessWidget {
                         child: Text(
                             Ultils.currencyFormat(
                                 double.parse(food.price.toString())),
-                            style: context.textStyleSmall!.copyWith(
+                            style: TextStyle(
                                 color: context.colorScheme.secondary,
                                 fontWeight: FontWeight.bold)))),
                 Expanded(
@@ -95,7 +95,7 @@ class GridItemFood extends StatelessWidget {
                           Text(
                               Ultils.currencyFormat(
                                   double.parse(discountedPrice.toString())),
-                              style: context.textStyleSmall!.copyWith(
+                              style: TextStyle(
                                   color: context.colorScheme.secondary,
                                   fontWeight: FontWeight.bold))
                         ]))),

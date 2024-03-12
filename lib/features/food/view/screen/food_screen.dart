@@ -70,8 +70,7 @@ class _MyWidgetState extends State<FoodScreen>
                 : AnimatedContainer(
                     duration: const Duration(milliseconds: 400),
                     child: Text('Danh sách món',
-                        style: context.titleStyleMedium!
-                            .copyWith(fontWeight: FontWeight.bold)))),
+                        style: context.titleStyleMedium))),
         actions: [
           IconButton(
               onPressed: () {
@@ -181,11 +180,6 @@ class _AfterSearchUIState extends State<AfterSearchUI> {
     return InkWell(
         onTap: () {
           context.push(RouteName.foodDetail, extra: food);
-          // context.push(RouteName.foodDetail, extra: food).then((value) {
-          //   if (value is bool || value == true) {
-          //     context.read<FoodBloc>().add(FoodsFetched());
-          //   }
-          // });
         },
         child: Padding(
             padding: EdgeInsets.symmetric(
@@ -236,10 +230,7 @@ class _AfterSearchUIState extends State<AfterSearchUI> {
   }
 
   Widget _buildTitle(BuildContext context, FoodModel food) {
-    return FittedBox(
-        child: Text(food.name,
-            style:
-                context.textStyleSmall!.copyWith(fontWeight: FontWeight.bold)));
+    return FittedBox(child: Text(food.name));
   }
 
   Widget _buildPrice(BuildContext context, FoodModel food) {
@@ -247,7 +238,7 @@ class _AfterSearchUIState extends State<AfterSearchUI> {
     double discountedPrice = food.price - discountAmount;
     return food.isDiscount == false
         ? Text(Ultils.currencyFormat(double.parse(food.price.toString())),
-            style: context.textStyleSmall!.copyWith(
+            style: TextStyle(
                 color: context.colorScheme.secondary,
                 fontWeight: FontWeight.bold))
         : Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -265,7 +256,7 @@ class _AfterSearchUIState extends State<AfterSearchUI> {
               Text(
                   Ultils.currencyFormat(
                       double.parse(discountedPrice.toString())),
-                  style: context.textStyleSmall!.copyWith(
+                  style: TextStyle(
                       color: context.colorScheme.secondary,
                       fontWeight: FontWeight.bold))
             ])

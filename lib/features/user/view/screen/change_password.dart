@@ -97,7 +97,7 @@ class _ChangePasswordState extends State<ChangePassword> {
       centerTitle: true,
       title: Text('Đổi mật khẩu',
           style:
-              context.textStyleMedium!.copyWith(fontWeight: FontWeight.bold)));
+              context.titleStyleMedium!.copyWith(fontWeight: FontWeight.bold)));
 }
 
 class _CurrentPassword extends StatelessWidget {

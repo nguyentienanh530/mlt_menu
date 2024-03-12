@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mlt_menu/common/widget/error_widget.dart';
@@ -38,21 +39,27 @@ class Categories extends StatelessWidget {
     return GestureDetector(
         onTap: () =>
             context.push(RouteName.foodOnCategory, extra: categoryModel),
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Image.network(categoryModel.image,
-              loadingBuilder: (context, child, loadingProgress) =>
-                  loadingProgress == null
-                      ? Card(
-                          child: Container(
-                              padding: const EdgeInsets.all(8),
-                              width: context.sizeDevice.height * 0.09,
-                              height: context.sizeDevice.height * 0.09,
-                              child: child))
-                      : const LoadingScreen()),
-          Text(categoryModel.name,
-              style: context.textStyleSmall,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis)
-        ]));
+        child: SizedBox(
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+              Expanded(
+                  flex: 4,
+                  child: Image.network(categoryModel.image,
+                      loadingBuilder: (context, child, loadingProgress) =>
+                          loadingProgress == null
+                              ? Card(
+                                  child: Container(
+                                      padding: const EdgeInsets.all(8),
+                                      child: child))
+                              : const LoadingScreen())),
+              Expanded(
+                  child: Container(
+                      alignment: Alignment.center,
+                      // color: Colors.amber,
+                      child: Text(categoryModel.name,
+                          maxLines: 1, overflow: TextOverflow.ellipsis)))
+            ])));
   }
 }

@@ -97,7 +97,7 @@ class CardView extends StatelessWidget {
 
   _buildAppbar(BuildContext context) => AppBar(
       centerTitle: true,
-      title: Text('Giỏ hàng', style: context.textStyleLarge));
+      title: Text('Giỏ hàng', style: context.titleStyleMedium));
 
   Widget _buildBody(BuildContext context, OrderModel orderModel) {
     return Column(
@@ -117,11 +117,11 @@ class CardView extends StatelessWidget {
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Tổng tiền:', style: context.textStyleSmall),
+                      const Text('Tổng tiền:'),
                       Text(
                           Ultils.currencyFormat(
                               double.parse(cartState.totalPrice.toString())),
-                          style: context.textStyleLarge!.copyWith(
+                          style: TextStyle(
                               color: context.colorScheme.secondary,
                               fontWeight: FontWeight.bold))
                     ]),
@@ -129,7 +129,7 @@ class CardView extends StatelessWidget {
                 AnimatedButton(
                     color: context.colorScheme.primary,
                     text: 'Lên đơn',
-                    buttonTextStyle: context.textStyleMedium!
+                    buttonTextStyle: context.titleStyleMedium!
                         .copyWith(fontWeight: FontWeight.bold),
                     pressEvent: () => submitCreateOrder(context))
               ])))
@@ -248,8 +248,7 @@ class CardView extends StatelessWidget {
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 const SizedBox(),
                 Text(foodOrder.foodName,
-                    style: context.textStyleMedium!
-                        .copyWith(fontWeight: FontWeight.bold)),
+                    style: const TextStyle(fontWeight: FontWeight.bold)),
                 SizedBox(height: defaultPadding / 2),
                 _buildQuality(context, foodOrder)
               ])
@@ -266,9 +265,8 @@ class CardView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Divider(),
-                        Text("Ghi chú: ",
-                            style: context.textStyleMedium!
-                                .copyWith(fontWeight: FontWeight.bold)),
+                        const Text("Ghi chú: ",
+                            style: TextStyle(fontWeight: FontWeight.bold)),
                         Text(foodOrder.note, style: context.textStyleSmall)
                       ]))
               : const SizedBox()
@@ -311,8 +309,7 @@ class CardView extends StatelessWidget {
           builder: (context, value, child) => Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5),
               child: Text(value.toString(),
-                  style: context.textStyleSmall!
-                      .copyWith(fontWeight: FontWeight.bold)))),
+                  style: const TextStyle(fontWeight: FontWeight.bold)))),
       InkWell(
           onTap: () {
             quantity.value++;
@@ -363,7 +360,7 @@ class _PriceFoodItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(Ultils.currencyFormat(double.parse(totalPrice)),
-        style: context.textStyleMedium!.copyWith(
+        style: TextStyle(
             color: context.colorScheme.secondary, fontWeight: FontWeight.bold));
   }
 }

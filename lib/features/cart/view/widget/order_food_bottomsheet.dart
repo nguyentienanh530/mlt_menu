@@ -63,7 +63,7 @@ class _OrderFoodBottomSheetState extends State<OrderFoodBottomSheet> {
             centerTitle: true,
             title: Text(_foodModel.name,
                 textAlign: TextAlign.center,
-                style: context.textStyleLarge!
+                style: context.titleStyleMedium!
                     .copyWith(fontWeight: FontWeight.bold)),
             actions: [
               IconButton(
@@ -80,7 +80,7 @@ class _OrderFoodBottomSheetState extends State<OrderFoodBottomSheet> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(AppString.priceSell,
-                                style: context.textStyleSmall),
+                                style: context.titleStyleMedium),
                             const SizedBox(height: 10),
                             _Price(
                                 price: Ultils.foodPrice(
@@ -90,11 +90,12 @@ class _OrderFoodBottomSheetState extends State<OrderFoodBottomSheet> {
                                         _foodModel.discount.toString()))),
                             const SizedBox(height: 10),
                             Text(AppString.quantity,
-                                style: context.textStyleSmall),
+                                style: context.titleStyleMedium),
                             const SizedBox(height: 10),
                             _buildQuantity(),
                             const SizedBox(height: 10),
-                            Text(AppString.note, style: context.textStyleSmall),
+                            Text(AppString.note,
+                                style: context.titleStyleMedium),
                             const SizedBox(height: 10),
                             _Note(noteCtrl: _noteCtrl),
                             const SizedBox(height: 20)
@@ -182,8 +183,8 @@ class _OrderFoodBottomSheetState extends State<OrderFoodBottomSheet> {
               borderRadius: const BorderRadius.all(Radius.circular(16.0)),
             ),
             child: Center(
-                child:
-                    Text(AppString.addToCart, style: context.textStyleSmall))));
+                child: Text(AppString.addToCart,
+                    style: const TextStyle(fontWeight: FontWeight.bold)))));
   }
 
   Widget _buildTotalPrice() {
@@ -191,9 +192,9 @@ class _OrderFoodBottomSheetState extends State<OrderFoodBottomSheet> {
         valueListenable: _totalPrice,
         builder: (context, total, child) =>
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Text(AppString.totalPrice, style: context.textStyleSmall),
+              Text(AppString.totalPrice),
               Text(Ultils.currencyFormat(double.parse(total.toString())),
-                  style: context.textStyleSmall!.copyWith(
+                  style: TextStyle(
                       color: context.colorScheme.secondary,
                       fontWeight: FontWeight.bold))
             ]));
@@ -216,8 +217,7 @@ class _OrderFoodBottomSheetState extends State<OrderFoodBottomSheet> {
                         decrementQuaranty();
                       }),
                       Text(quantity.toString(),
-                          style: context.textStyleSmall!
-                              .copyWith(fontWeight: FontWeight.bold)),
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
                       _buildCounter(context,
                           svg: SvgPicture.asset("assets/image/add.svg"),
                           onTap: () {
@@ -265,9 +265,11 @@ class _Price extends StatelessWidget {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(AppString.priceSell, style: context.textStyleSmall),
+                  Text(AppString.priceSell),
                   Text(Ultils.currencyFormat(double.parse(price.toString())),
-                      style: context.textStyleSmall)
+                      style: TextStyle(
+                          color: context.colorScheme.secondary,
+                          fontWeight: FontWeight.bold))
                 ])));
   }
 }

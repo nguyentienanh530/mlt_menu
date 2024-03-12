@@ -56,6 +56,8 @@ dependencies:
   shimmer: ^3.0.0
   smooth_page_indicator: ^1.1.0
   badges: ^3.1.2
+  flutter_native_splash: ^2.3.10
+  flutter_launcher_icons: ^0.13.1
   
 
 dev_dependencies:
@@ -78,3 +80,27 @@ flutter:
     - assets/image/image_recipe/
     - assets/icon/
     - assets/.env
+
+
+
+flutter_native_splash:
+  android: true
+  ios: true
+  web: false
+  background_image: assets/image/SplashScreen.png
+  image: assets/icon/iconLauncher.png
+  android_12:
+    image: assets/image/icon_splash.png
+    icon_background_color: "#ffffff"
+    image_dark: assets/image/icon_splash.png
+    icon_background_color_dark: "#121212"
+
+
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/icon_launcher.png"
+  min_sdk_android: 21
+    
+

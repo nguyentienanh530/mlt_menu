@@ -22,9 +22,7 @@ class FoodDetailScreen extends StatelessWidget {
 
   _buildAppbar(BuildContext context) {
     return AppBar(
-        title: Text(AppString.titleFoodDetail,
-            style: context.titleStyleMedium!
-                .copyWith(fontWeight: FontWeight.bold)),
+        title: Text(AppString.titleFoodDetail, style: context.titleStyleMedium),
         centerTitle: true,
         actions: [
           CartButton(onPressed: () => context.push(RouteName.cartScreen))
@@ -91,7 +89,8 @@ class _FoodDetailViewState extends State<FoodDetailView> {
         },
         color: context.colorScheme.primary,
         text: 'Thêm giỏ hàng',
-        buttonTextStyle: context.textStyleMedium);
+        buttonTextStyle:
+            context.titleStyleMedium!.copyWith(fontWeight: FontWeight.bold));
   }
 
   Widget _buildDescription(BuildContext context, FoodModel food) {
@@ -99,7 +98,7 @@ class _FoodDetailViewState extends State<FoodDetailView> {
         padding: EdgeInsets.symmetric(
             horizontal: defaultPadding, vertical: defaultPadding / 2),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text('Description',
+          Text('Mô tả',
               style: context.titleStyleMedium!
                   .copyWith(fontWeight: FontWeight.bold)),
           ReadMoreText(food.description,
@@ -120,8 +119,8 @@ class _FoodDetailViewState extends State<FoodDetailView> {
         padding: EdgeInsets.symmetric(
             horizontal: defaultPadding, vertical: defaultPadding / 2),
         child: Text(food.name,
-            style:
-                context.textStyleLarge!.copyWith(fontWeight: FontWeight.bold)));
+            style: context.titleStyleMedium!
+                .copyWith(fontWeight: FontWeight.bold)));
   }
 
   Widget _buildPrice(BuildContext context, FoodModel food) {
@@ -131,7 +130,7 @@ class _FoodDetailViewState extends State<FoodDetailView> {
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Text(Ultils.currencyFormat(double.parse(food.price.toString())),
-              style: context.textStyleLarge!.copyWith(
+              style: context.titleStyleMedium!.copyWith(
                   color: context.colorScheme.secondary,
                   fontWeight: FontWeight.bold))
         ]));
@@ -171,7 +170,9 @@ class _Gallery extends StatelessWidget {
       Padding(
           padding: EdgeInsets.symmetric(
               horizontal: defaultPadding, vertical: defaultPadding / 2),
-          child: Text('Gallery', style: context.titleStyleLarge)),
+          child: Text('Thư viện hình ảnh',
+              style: context.titleStyleMedium!
+                  .copyWith(fontWeight: FontWeight.bold))),
       Padding(
           padding: EdgeInsets.symmetric(
               horizontal: defaultPadding, vertical: defaultPadding / 2),

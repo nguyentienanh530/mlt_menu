@@ -27,7 +27,7 @@ class ProfileScreen extends StatelessWidget {
 
   _buildAppbar(BuildContext context) => AppBar(
       centerTitle: true,
-      title: Text('Thông tin', style: context.textStyleLarge));
+      title: Text('Thông tin', style: context.titleStyleMedium));
 
   Widget _buildBody(BuildContext context) {
     return Builder(builder: (context) {
@@ -88,7 +88,7 @@ class ProfileScreen extends StatelessWidget {
                       child: SvgPicture.asset('assets/icon/print.svg',
                           colorFilter: ColorFilter.mode(
                               context.colorScheme.primary, BlendMode.srcIn))),
-                  Text('Sử dụng máy in', style: context.textStyleSmall)
+                  const Text('Sử dụng máy in')
                 ]),
                 Transform.scale(
                     scale: 0.8,
@@ -157,7 +157,7 @@ class _ItemProfile extends StatelessWidget {
                     child: SvgPicture.asset(svgPath,
                         colorFilter: ColorFilter.mode(
                             context.colorScheme.primary, BlendMode.srcIn))),
-                Text(title, style: context.textStyleSmall)
+                Text(title)
               ]),
               Padding(
                   padding: EdgeInsets.all(defaultPadding),
@@ -180,7 +180,7 @@ class _CardProfife extends StatelessWidget {
                   ? _buildImageAsset(context)
                   : _buildImageNetwork(context),
               SizedBox(height: defaultPadding),
-              Text(user.name, style: context.textStyleMedium),
+              Text(user.name),
               SizedBox(height: defaultPadding / 4),
               _buildItem(context, Icons.email_rounded, user.email),
               SizedBox(height: defaultPadding / 4),
@@ -218,9 +218,7 @@ class _CardProfife extends StatelessWidget {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       Icon(icon, size: 15),
       const SizedBox(width: 3),
-      Text(title,
-          style: context.textStyleSmall!
-              .copyWith(color: Colors.white.withOpacity(0.5)))
+      Text(title, style: TextStyle(color: Colors.white.withOpacity(0.5)))
     ]);
   }
 }
