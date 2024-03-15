@@ -7,11 +7,32 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:mlt_menu/features/print/data/model/print_model.dart';
 
+import '../../features/print/data/model/print_model.dart';
 import 'utils.dart';
 
 class Ultils {
+  static bool validatePhone(String? phone) {
+    if (phone == null || phone.isEmpty) return false;
+    var phoneRegex = RegExp(r"(09|03|07|08|05)+([0-9]{8})\b");
+    return phoneRegex.hasMatch(phone);
+  }
+
+  static bool validatePassword(String? password) {
+    if (password == null || password.isEmpty) return false;
+    var emailRegex =
+        RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+    return emailRegex.hasMatch(password);
+  }
+  //
+
+  static bool validateEmail(String? email) {
+    if (email == null || email.isEmpty) return false;
+    var emailRegex = RegExp(
+        r'^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
+    return emailRegex.hasMatch(email);
+  }
+
   static String currencyFormat(double double) {
     final oCcy = NumberFormat("###,###,###", "vi");
     return oCcy.format(double);

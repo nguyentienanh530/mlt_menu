@@ -131,8 +131,9 @@ class AppAlerts {
                           SpinKitCircle(
                               color: context.colorScheme.secondary, size: 30),
                           SizedBox(height: defaultPadding / 2),
-                          Text(desc ?? 'Please wait...',
-                              style: context.textStyleSmall)
+                          FittedBox(
+                              child: Text(desc ?? 'Vui lòng đợi...',
+                                  style: context.textStyleSmall))
                         ])))));
   }
 }

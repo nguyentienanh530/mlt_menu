@@ -47,7 +47,9 @@ class ListItemFood extends StatelessWidget {
   Widget _buildTitle(BuildContext context, FoodModel food) {
     return FittedBox(
         alignment: Alignment.centerLeft,
-        child: Text(food.name, overflow: TextOverflow.ellipsis));
+        child: Text(food.name,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontWeight: FontWeight.bold)));
   }
 
   Widget _buildPriceDiscount(BuildContext context, FoodModel food) {

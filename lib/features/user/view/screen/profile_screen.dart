@@ -41,27 +41,26 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _buildListAction(BuildContext context, UserModel user) {
-    return Column(
+    return ListView(
+        shrinkWrap: true,
         children: [
-      _CardProfife(user: user),
-      Expanded(
-          child: SingleChildScrollView(
-              child: Column(children: [
-        _ItemProfile(
-            svgPath: 'assets/icon/user_config.svg',
-            title: 'Cập nhật thông tin',
-            onTap: () => _handleUserUpdated(context, user)),
-        _ItemProfile(
-            svgPath: 'assets/icon/lock.svg',
-            title: 'Đổi mật khẩu',
-            onTap: () => context.push(RouteName.changePassword)),
-        _buildItemPrint(context),
-        _ItemProfile(
-            svgPath: 'assets/icon/logout.svg',
-            title: 'Đăng xuất',
-            onTap: () => _handleLogout(context))
-      ])))
-    ]
+          _CardProfife(user: user),
+          Column(children: [
+            _ItemProfile(
+                svgPath: 'assets/icon/user_config.svg',
+                title: 'Cập nhật thông tin',
+                onTap: () => _handleUserUpdated(context, user)),
+            _ItemProfile(
+                svgPath: 'assets/icon/lock.svg',
+                title: 'Đổi mật khẩu',
+                onTap: () => context.push(RouteName.changePassword)),
+            _buildItemPrint(context),
+            _ItemProfile(
+                svgPath: 'assets/icon/logout.svg',
+                title: 'Đăng xuất',
+                onTap: () => _handleLogout(context))
+          ])
+        ]
             .animate(interval: 50.ms)
             .slideX(
                 begin: -0.1,
