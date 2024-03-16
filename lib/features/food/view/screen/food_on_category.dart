@@ -44,7 +44,8 @@ class FoodOnCategoryView extends StatelessWidget {
       Status.loading => const LoadingScreen(),
       Status.empty => const EmptyScreen(),
       Status.failure => ErrorScreen(errorMsg: foodsOnCategoryState.error),
-      Status.success => GridItemFood(list: foodsOnCategoryState.datas)
+      Status.success =>
+        GridItemFood(list: foodsOnCategoryState.datas, isScroll: true)
     });
   }
 }
