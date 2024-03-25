@@ -1,6 +1,6 @@
 import 'package:category_repository/category_repository.dart';
-import 'package:mlt_menu/common/firebase/firebase_base.dart';
-import 'package:mlt_menu/features/category/data/model/category_model.dart';
+import 'package:mlt_menu_food/common/firebase/firebase_base.dart';
+import 'package:mlt_menu_food/features/category/data/model/category_model.dart';
 
 import '../../../../../common/firebase/firebase_result.dart';
 

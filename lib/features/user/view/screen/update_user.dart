@@ -3,7 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:mlt_menu/features/user/cubit/user_cubit.dart';
+import 'package:mlt_menu_food/features/user/cubit/user_cubit.dart';
 import '../../../../common/bloc/generic_bloc_state.dart';
 import '../../../../common/dialog/app_alerts.dart';
 import '../../../../common/dialog/progress_dialog.dart';

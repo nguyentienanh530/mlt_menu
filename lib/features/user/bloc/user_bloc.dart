@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mlt_menu/common/bloc/bloc_helper.dart';
-import 'package:mlt_menu/common/bloc/generic_bloc_state.dart';
-import 'package:mlt_menu/features/user/data/model/user_model.dart';
-import 'package:mlt_menu/features/user/data/provider/remote/user_repo.dart';
+import 'package:mlt_menu_food/common/bloc/bloc_helper.dart';
+import 'package:mlt_menu_food/common/bloc/generic_bloc_state.dart';
+import 'package:mlt_menu_food/features/user/data/model/user_model.dart';
+import 'package:mlt_menu_food/features/user/data/provider/remote/user_repo.dart';
 import 'package:user_repository/user_repository.dart';
 
 part 'user_event.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mlt_menu/core/utils/utils.dart';
+import 'package:mlt_menu_food/core/utils/utils.dart';
 
 class EmptyWidget extends StatelessWidget {
   const EmptyWidget({super.key});

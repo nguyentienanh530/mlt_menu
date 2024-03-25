@@ -4,9 +4,9 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mlt_menu/features/print/cubit/is_use_print_cubit.dart';
-import 'package:mlt_menu/features/print/data/print_data_source/print_data_source.dart';
-import 'package:mlt_menu/features/user/cubit/user_cubit.dart';
+import 'package:mlt_menu_food/features/print/cubit/is_use_print_cubit.dart';
+import 'package:mlt_menu_food/features/print/data/print_data_source/print_data_source.dart';
+import 'package:mlt_menu_food/features/user/cubit/user_cubit.dart';
 
 import '../../../../common/widget/common_bottomsheet.dart';
 import '../../../../core/config/config.dart';

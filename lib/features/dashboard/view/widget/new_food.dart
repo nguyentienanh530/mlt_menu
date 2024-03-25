@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mlt_menu/common/bloc/generic_bloc_state.dart';
-import 'package:mlt_menu/common/widget/error_widget.dart';
-import 'package:mlt_menu/common/widget/loading_screen.dart';
-import 'package:mlt_menu/core/utils/utils.dart';
-import 'package:mlt_menu/features/food/bloc/food_bloc.dart';
-import 'package:mlt_menu/features/food/data/model/food_model.dart';
+import 'package:mlt_menu_food/common/bloc/generic_bloc_state.dart';
+import 'package:mlt_menu_food/common/widget/error_widget.dart';
+import 'package:mlt_menu_food/common/widget/loading_screen.dart';
+import 'package:mlt_menu_food/core/utils/utils.dart';
+import 'package:mlt_menu_food/features/food/bloc/food_bloc.dart';
+import 'package:mlt_menu_food/features/food/data/model/food_model.dart';
 
 import '../../../../common/widget/list_item_food.dart';
 

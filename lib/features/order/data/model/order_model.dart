@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:mlt_menu/features/order/data/model/food_order.dart';
+import 'package:mlt_menu_food/features/order/data/model/food_order.dart';
 
 part 'order_model.freezed.dart';
 part 'order_model.g.dart';

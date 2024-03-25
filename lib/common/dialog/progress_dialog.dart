@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mlt_menu/core/utils/utils.dart';
+import 'package:mlt_menu_food/core/utils/utils.dart';
 
 import '../widget/spinkit_indicator.dart';
 

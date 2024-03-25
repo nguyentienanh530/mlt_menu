@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:mlt_menu/core/utils/utils.dart';
+import 'package:mlt_menu_food/core/utils/utils.dart';
 
 class LoadingScreen extends StatelessWidget {
   const LoadingScreen({super.key});

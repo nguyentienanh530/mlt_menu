@@ -1,10 +1,10 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mlt_menu/common/widget/cart_button.dart';
-import 'package:mlt_menu/common/widget/loading_screen.dart';
-import 'package:mlt_menu/core/config/config.dart';
-import 'package:mlt_menu/features/cart/view/widget/order_food_bottomsheet.dart';
+import 'package:mlt_menu_food/common/widget/cart_button.dart';
+import 'package:mlt_menu_food/common/widget/loading_screen.dart';
+import 'package:mlt_menu_food/core/config/config.dart';
+import 'package:mlt_menu_food/features/cart/view/widget/order_food_bottomsheet.dart';
 import '../../../../core/utils/utils.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:readmore/readmore.dart';

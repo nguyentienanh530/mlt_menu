@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mlt_menu/common/bloc/generic_bloc_state.dart';
-import 'package:mlt_menu/common/widget/empty_screen.dart';
-import 'package:mlt_menu/common/widget/error_screen.dart';
-import 'package:mlt_menu/common/widget/loading_screen.dart';
-import 'package:mlt_menu/core/utils/utils.dart';
-import 'package:mlt_menu/features/print/bloc/print_bloc.dart';
-import 'package:mlt_menu/features/print/cubit/print_cubit.dart';
-import 'package:mlt_menu/features/print/data/model/print_model.dart';
-import 'package:mlt_menu/features/print/data/print_data_source/print_data_source.dart';
+import 'package:mlt_menu_food/common/bloc/generic_bloc_state.dart';
+import 'package:mlt_menu_food/common/widget/empty_screen.dart';
+import 'package:mlt_menu_food/common/widget/error_screen.dart';
+import 'package:mlt_menu_food/common/widget/loading_screen.dart';
+import 'package:mlt_menu_food/core/utils/utils.dart';
+import 'package:mlt_menu_food/features/print/bloc/print_bloc.dart';
+import 'package:mlt_menu_food/features/print/cubit/print_cubit.dart';
+import 'package:mlt_menu_food/features/print/data/model/print_model.dart';
+import 'package:mlt_menu_food/features/print/data/print_data_source/print_data_source.dart';
 
 class PrintScreen extends StatelessWidget {
   const PrintScreen({super.key});

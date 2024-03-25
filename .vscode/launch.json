@@ -5,18 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "mlt_menu",
+            "name": "mlt_menu_food",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "mlt_menu (profile mode)",
+            "name": "mlt_menu_food (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "mlt_menu (release mode)",
+            "name": "mlt_menu_food (release mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"

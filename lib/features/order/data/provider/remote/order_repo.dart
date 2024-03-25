@@ -1,5 +1,5 @@
-import 'package:mlt_menu/common/firebase/firebase_base.dart';
-import 'package:mlt_menu/features/order/data/model/order_model.dart';
+import 'package:mlt_menu_food/common/firebase/firebase_base.dart';
+import 'package:mlt_menu_food/features/order/data/model/order_model.dart';
 import 'package:order_repository/order_repository.dart';
 
 import '../../../../../common/firebase/firebase_result.dart';

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:mlt_menu/common/firebase/firebase_base.dart';
-import 'package:mlt_menu/common/firebase/firebase_result.dart';
-import 'package:mlt_menu/features/banner/data/model/banner_model.dart';
+import 'package:mlt_menu_food/common/firebase/firebase_base.dart';
+import 'package:mlt_menu_food/common/firebase/firebase_result.dart';
+import 'package:mlt_menu_food/features/banner/data/model/banner_model.dart';
 
 class BannerRepo extends FirebaseBase<BannerModel> {
   final _firebaseFirestore = FirebaseFirestore.instance;
