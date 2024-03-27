@@ -26,7 +26,7 @@ class DashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(providers: [
       BlocProvider(create: (context) => BannerBloc()),
-      BlocProvider(create: (context) => CategoryBloc()),
+      BlocProvider(create: (context) => CategoryBloc())
     ], child: const DashboardView());
   }
 }
@@ -83,14 +83,17 @@ class _DashboardViewState extends State<DashboardView>
                         Colors.white, BlendMode.srcIn)))));
   }
 
-  _buildAppbar() => AppBar(
-          title: Text('Minh Long Menu Food', style: context.titleStyleMedium),
-          actions: [
-            _buildTableButton(),
-            const SizedBox(width: 8),
-            _buildProfile(),
-            const SizedBox(width: 16)
-          ]);
+  _buildAppbar() {
+    var user = context.watch<UserCubit>().state;
+    return AppBar(
+        title: Text(user.name, style: context.titleStyleMedium),
+        actions: [
+          _buildTableButton(),
+          const SizedBox(width: 8),
+          _buildProfile(),
+          const SizedBox(width: 16)
+        ]);
+  }
 
   Widget _buildProfile() {
     var user = context.watch<UserCubit>().state;
