@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:887142047579:android:199393345f91a11648c47e",
+        "mobilesdk_app_id": "1:887142047579:android:c4d81452470572ae48c47e",
         "android_client_info": {
-          "package_name": "com.mlt.mlt_menu_admin"
+          "package_name": "com.example.admin_menu_mobile"
         }
       },
       "oauth_client": [],
@@ -26,9 +26,47 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:887142047579:android:5a0b332fa1cbaca648c47e",
+        "mobilesdk_app_id": "1:887142047579:android:0ca499354051434c48c47e",
+        "android_client_info": {
+          "package_name": "com.mlt.milo_menu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_h68J2Rge86nFGmFbnDRWGK9EmcXFJek"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887142047579:android:5da6d2c192b593aa48c47e",
         "android_client_info": {
           "package_name": "com.mlt.mlt_client_mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_h68J2Rge86nFGmFbnDRWGK9EmcXFJek"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887142047579:android:199393345f91a11648c47e",
+        "android_client_info": {
+          "package_name": "com.mlt.mlt_menu_admin"
         }
       },
       "oauth_client": [],

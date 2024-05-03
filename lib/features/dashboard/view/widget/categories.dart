@@ -31,8 +31,8 @@ class Categories extends StatelessWidget {
     modifiableList.sort((a, b) => a.sort!.compareTo(b.sort!));
     return GridView.builder(
         shrinkWrap: true,
-        gridDelegate:
-            const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 4, mainAxisSpacing: 8, crossAxisSpacing: 8),
         physics: const NeverScrollableScrollPhysics(),
         // scrollDirection: Axis.horizontal,
         itemCount: modifiableList.length,
@@ -44,13 +44,12 @@ class Categories extends StatelessWidget {
     return GestureDetector(
         onTap: () =>
             context.push(RouteName.foodOnCategory, extra: categoryModel),
-        child: SizedBox(
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
               Expanded(
-                  flex: 4,
+                  flex: 3,
                   child: Image.network(categoryModel.image,
                       loadingBuilder: (context, child, loadingProgress) =>
                           loadingProgress == null
@@ -60,11 +59,12 @@ class Categories extends StatelessWidget {
                                       child: child))
                               : const LoadingScreen())),
               Expanded(
-                  child: Container(
-                      alignment: Alignment.center,
-                      // color: Colors.amber,
-                      child: Text(categoryModel.name,
-                          maxLines: 1, overflow: TextOverflow.ellipsis)))
-            ])));
+                  child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.center,
+                child: Text(categoryModel.name,
+                    maxLines: 1, overflow: TextOverflow.ellipsis),
+              ))
+            ]));
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mlt_client_mobile/features/cart/view/widget/order_food_bottomsheet.dart';
 import '../../core/config/config.dart';
@@ -42,9 +41,11 @@ class GridItemFood extends StatelessWidget {
   Widget _buildTitle(BuildContext context, FoodModel food) {
     return FittedBox(
         alignment: Alignment.centerLeft,
+        fit: BoxFit.scaleDown,
         child: Text(food.name,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontWeight: FontWeight.bold)));
+            style: context.titleStyleLarge!
+                .copyWith(fontWeight: FontWeight.bold)));
   }
 
   Widget _buildPriceDiscount(BuildContext context, FoodModel food) {
@@ -53,83 +54,51 @@ class GridItemFood extends StatelessWidget {
     return food.isDiscount == false
         ? Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-                Expanded(
-                    flex: 2,
-                    child: FittedBox(
-                        alignment: Alignment.bottomLeft,
-                        child: Text(
-                            Ultils.currencyFormat(
-                                double.parse(food.price.toString())),
-                            style: TextStyle(
-                                color: context.colorScheme.secondary,
-                                fontWeight: FontWeight.bold)))),
-                Expanded(
-                    child: FittedBox(
-                        alignment: Alignment.bottomRight,
-                        child: _buildButtonCart(context, food)))
+                Text(Ultils.currencyFormat(double.parse(food.price.toString())),
+                    style: context.titleStyleLarge!.copyWith(
+                        color: context.colorScheme.secondary,
+                        fontWeight: FontWeight.bold)),
+                _buildButtonCart(context, food)
               ])
         : Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-                // TextStyle(
-                //                   fontFamily: GoogleFonts.nunito().fontFamily,
-                //                   decoration: TextDecoration.lineThrough,
-                //                   decorationThickness: 3.0,
-                //                   decorationColor: Colors.red,
-                //                   decorationStyle: TextDecorationStyle.solid)
-                Expanded(
-                    flex: 2,
-                    child: FittedBox(
-                        alignment: Alignment.bottomLeft,
-                        child: Row(children: [
-                          Text(
-                              Ultils.currencyFormat(
-                                  double.parse(food.price.toString())),
-                              style: context.textStyleSmall!.copyWith(
-                                  decoration: TextDecoration.lineThrough,
-                                  decorationThickness: 3.0,
-                                  decorationColor: Colors.red,
-                                  decorationStyle: TextDecorationStyle.solid)),
-                          const SizedBox(width: 8),
-                          Text(
-                              Ultils.currencyFormat(
-                                  double.parse(discountedPrice.toString())),
-                              style: TextStyle(
-                                  color: context.colorScheme.secondary,
-                                  fontWeight: FontWeight.bold))
-                        ]))),
-                Expanded(
-                    child: FittedBox(
-                        alignment: Alignment.bottomRight,
-                        child: _buildButtonCart(context, food)))
+                Row(children: [
+                  Text(
+                      Ultils.currencyFormat(
+                          double.parse(food.price.toString())),
+                      style: context.titleStyleLarge!.copyWith(
+                          decoration: TextDecoration.lineThrough,
+                          decorationThickness: 3.0,
+                          decorationColor: Colors.red,
+                          decorationStyle: TextDecorationStyle.solid)),
+                  const SizedBox(width: 8),
+                  Text(
+                      Ultils.currencyFormat(
+                          double.parse(discountedPrice.toString())),
+                      style: context.titleStyleLarge!.copyWith(
+                          color: context.colorScheme.secondary,
+                          fontWeight: FontWeight.bold))
+                ]),
+                _buildButtonCart(context, food)
               ]);
   }
 
   Widget _buildButtonCart(BuildContext context, FoodModel food) {
-    return GestureDetector(
-        onTap: () {
-          // Get.toNamed(Routes.order, arguments: {'food': food});
-          // Get.bottomSheet(
-          //     SizedBox(
-          //         height: size.height * 0.75, child: OrderScreen(food: food)),
-          //     ignoreSafeArea: false,
-          //     isScrollControlled: true,
-          //     enableDrag: false,
-          //     useRootNavigator: true);
-
+    return OutlinedButton(
+        style: ButtonStyle(
+            foregroundColor:
+                MaterialStatePropertyAll(context.colorScheme.secondary)),
+        onPressed: () {
           showModalBottomSheet(
               context: context,
               isScrollControlled: true,
               builder: (context) => OrderFoodBottomSheet(foodModel: food));
         },
-        child: SvgPicture.asset('assets/icon/cart.svg',
-            height: 20,
-            width: 20,
-            colorFilter:
-                const ColorFilter.mode(Colors.white, BlendMode.srcIn)));
+        child: const Icon(Icons.shopping_cart_rounded));
   }
 
   Widget _buildGridItemFood(BuildContext contextt, List<FoodModel> food) {
@@ -144,7 +113,7 @@ class GridItemFood extends StatelessWidget {
                 : const NeverScrollableScrollPhysics(),
             itemCount: food.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2),
+                mainAxisSpacing: 16, crossAxisSpacing: 16, crossAxisCount: 2),
             itemBuilder: (context, index) => _buildItem(context, food[index])));
   }
 
@@ -176,7 +145,6 @@ class GridItemFood extends StatelessWidget {
                                       : const SizedBox()
                                 ])),
                             Expanded(
-                                flex: 1,
                                 child: Padding(
                                     padding: EdgeInsets.all(defaultPadding / 2),
                                     child: Column(

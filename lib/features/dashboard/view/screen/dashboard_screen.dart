@@ -160,7 +160,10 @@ class _DashboardViewState extends State<DashboardView>
                 _buildSearch(),
                 SliderImage(),
                 const SizedBox(height: 16),
-                const Categories(),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Categories(),
+                ),
                 _buildTitle(
                     'Món ăn mới', () => context.push(RouteName.newFood)),
                 const NewFoods(),
@@ -208,13 +211,13 @@ class _DashboardViewState extends State<DashboardView>
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Text(title,
-              style: context.titleStyleMedium!
+              style: context.titleStyleLarge!
                   .copyWith(fontWeight: FontWeight.bold)),
           GestureDetector(
               onTap: onTap,
               child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
                 Text('Xem tất cả',
-                    style: context.textStyleSmall!.copyWith(
+                    style: context.textStyleLarge!.copyWith(
                         fontStyle: FontStyle.italic,
                         color: context.colorScheme.error)),
                 Icon(Icons.navigate_next_rounded,

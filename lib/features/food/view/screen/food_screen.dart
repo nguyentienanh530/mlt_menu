@@ -192,14 +192,18 @@ class _AfterSearchUIState extends State<AfterSearchUI> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           _buildImage(food),
-                          Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                _buildTitle(context, food),
-                                // _buildCategory(context, food),
-                                _buildPrice(context, food)
-                              ])
+                          Expanded(
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  _buildTitle(context, food),
+                                  // _buildCategory(context, food),
+                                  _buildPrice(context, food)
+                                ]),
+                          ),
+                          const SizedBox(width: 8)
                         ]
                             .animate(interval: 50.ms)
                             .slideX(
@@ -230,7 +234,13 @@ class _AfterSearchUIState extends State<AfterSearchUI> {
   }
 
   Widget _buildTitle(BuildContext context, FoodModel food) {
-    return FittedBox(child: Text(food.name));
+    return FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Text(
+          food.name,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ));
   }
 
   Widget _buildPrice(BuildContext context, FoodModel food) {

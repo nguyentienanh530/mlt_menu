@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyC_h68J2Rge86nFGmFbnDRWGK9EmcXFJek',
-    appId: '1:887142047579:android:5a0b332fa1cbaca648c47e',
+    appId: '1:887142047579:android:5da6d2c192b593aa48c47e',
     messagingSenderId: '887142047579',
     projectId: 'minhlong-menu',
     storageBucket: 'minhlong-menu.appspot.com',
