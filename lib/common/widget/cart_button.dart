@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:badges/badges.dart' as badges;
-import 'package:mlt_menu_food/core/utils/utils.dart';
-import 'package:mlt_menu_food/features/cart/cubit/cart_cubit.dart';
+import 'package:mlt_client_mobile/core/utils/utils.dart';
+import 'package:mlt_client_mobile/features/cart/cubit/cart_cubit.dart';
 
 class CartButton extends StatelessWidget {
   const CartButton({super.key, required this.onPressed});

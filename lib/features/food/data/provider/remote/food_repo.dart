@@ -1,7 +1,7 @@
 import 'package:food_repository/food_repository.dart';
-import 'package:mlt_menu_food/common/firebase/firebase_base.dart';
-import 'package:mlt_menu_food/common/firebase/firebase_result.dart';
-import 'package:mlt_menu_food/features/food/data/model/food_model.dart';
+import 'package:mlt_client_mobile/common/firebase/firebase_base.dart';
+import 'package:mlt_client_mobile/common/firebase/firebase_result.dart';
+import 'package:mlt_client_mobile/features/food/data/model/food_model.dart';
 
 class FoodRepo extends FirebaseBase<FoodModel> {
   final FoodRepository _foodRepository;

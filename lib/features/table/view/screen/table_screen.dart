@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mlt_menu_food/common/bloc/generic_bloc_state.dart';
-import 'package:mlt_menu_food/common/widget/empty_screen.dart';
-import 'package:mlt_menu_food/common/widget/error_screen.dart';
-import 'package:mlt_menu_food/common/widget/loading_screen.dart';
-import 'package:mlt_menu_food/core/utils/utils.dart';
-import 'package:mlt_menu_food/features/table/bloc/table_bloc.dart';
-import 'package:mlt_menu_food/features/table/cubit/table_cubit.dart';
-import 'package:mlt_menu_food/features/table/data/model/table_model.dart';
+import 'package:mlt_client_mobile/common/bloc/generic_bloc_state.dart';
+import 'package:mlt_client_mobile/common/widget/empty_screen.dart';
+import 'package:mlt_client_mobile/common/widget/error_screen.dart';
+import 'package:mlt_client_mobile/common/widget/loading_screen.dart';
+import 'package:mlt_client_mobile/core/utils/utils.dart';
+import 'package:mlt_client_mobile/features/table/bloc/table_bloc.dart';
+import 'package:mlt_client_mobile/features/table/cubit/table_cubit.dart';
+import 'package:mlt_client_mobile/features/table/data/model/table_model.dart';
 
 class TableScreen extends StatelessWidget {
   const TableScreen({super.key});

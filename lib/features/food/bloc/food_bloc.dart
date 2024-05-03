@@ -4,10 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_repository/food_repository.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:mlt_menu_food/common/bloc/bloc_helper.dart';
-import 'package:mlt_menu_food/common/bloc/generic_bloc_state.dart';
-import 'package:mlt_menu_food/features/food/data/model/food_model.dart';
-import 'package:mlt_menu_food/features/food/data/provider/remote/food_repo.dart';
+import 'package:mlt_client_mobile/common/bloc/bloc_helper.dart';
+import 'package:mlt_client_mobile/common/bloc/generic_bloc_state.dart';
+import 'package:mlt_client_mobile/features/food/data/model/food_model.dart';
+import 'package:mlt_client_mobile/features/food/data/provider/remote/food_repo.dart';
 part 'food_event.dart';
 
 typedef Emit = Emitter<GenericBlocState<FoodModel>>;

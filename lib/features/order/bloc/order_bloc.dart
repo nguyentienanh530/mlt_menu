@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mlt_menu_food/common/bloc/bloc_helper.dart';
-import 'package:mlt_menu_food/common/bloc/generic_bloc_state.dart';
-import 'package:mlt_menu_food/features/order/data/model/order_model.dart';
-import 'package:mlt_menu_food/features/order/data/provider/remote/order_repo.dart';
+import 'package:mlt_client_mobile/common/bloc/bloc_helper.dart';
+import 'package:mlt_client_mobile/common/bloc/generic_bloc_state.dart';
+import 'package:mlt_client_mobile/features/order/data/model/order_model.dart';
+import 'package:mlt_client_mobile/features/order/data/provider/remote/order_repo.dart';
 import 'package:order_repository/order_repository.dart';
 
 part 'order_event.dart';

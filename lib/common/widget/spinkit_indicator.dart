@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:mlt_menu_food/core/utils/utils.dart';
+import 'package:mlt_client_mobile/core/utils/utils.dart';
 
 enum SpinKitType { wave, circle }
 

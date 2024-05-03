@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mlt_menu_food/features/cart/view/widget/order_food_bottomsheet.dart';
+import 'package:mlt_client_mobile/features/cart/view/widget/order_food_bottomsheet.dart';
 import '../../core/config/config.dart';
 import '../../core/utils/utils.dart';
 import '../../features/food/data/model/food_model.dart';

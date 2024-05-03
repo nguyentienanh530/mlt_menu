@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mlt_menu_food/core/utils/extensions.dart';
+import 'package:mlt_client_mobile/core/utils/extensions.dart';
 
 class ErrorWidgetCustom extends StatelessWidget {
   const ErrorWidgetCustom({super.key, required this.errorMessage});

@@ -1,5 +1,5 @@
-import 'package:mlt_menu_food/common/firebase/firebase_base.dart';
-import 'package:mlt_menu_food/features/print/data/model/print_model.dart';
+import 'package:mlt_client_mobile/common/firebase/firebase_base.dart';
+import 'package:mlt_client_mobile/features/print/data/model/print_model.dart';
 import 'package:print_repository/print_repository.dart';
 
 import '../../../../../common/firebase/firebase_result.dart';

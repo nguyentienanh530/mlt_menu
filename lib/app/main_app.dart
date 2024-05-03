@@ -1,11 +1,11 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mlt_menu_food/features/cart/cubit/cart_cubit.dart';
-import 'package:mlt_menu_food/features/print/cubit/is_use_print_cubit.dart';
-import 'package:mlt_menu_food/features/print/cubit/print_cubit.dart';
-import 'package:mlt_menu_food/features/table/cubit/table_cubit.dart';
-import 'package:mlt_menu_food/features/user/cubit/user_cubit.dart';
+import 'package:mlt_client_mobile/features/cart/cubit/cart_cubit.dart';
+import 'package:mlt_client_mobile/features/print/cubit/is_use_print_cubit.dart';
+import 'package:mlt_client_mobile/features/print/cubit/print_cubit.dart';
+import 'package:mlt_client_mobile/features/table/cubit/table_cubit.dart';
+import 'package:mlt_client_mobile/features/user/cubit/user_cubit.dart';
 
 import '../features/auth/bloc/auth_bloc.dart';
 import '../features/order/bloc/order_bloc.dart';

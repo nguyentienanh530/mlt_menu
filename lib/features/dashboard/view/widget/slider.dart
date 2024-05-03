@@ -1,9 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mlt_menu_food/common/widget/error_widget.dart';
-import 'package:mlt_menu_food/common/widget/loading_screen.dart';
-import 'package:mlt_menu_food/core/utils/utils.dart';
+import 'package:mlt_client_mobile/common/widget/error_widget.dart';
+import 'package:mlt_client_mobile/common/widget/loading_screen.dart';
+import 'package:mlt_client_mobile/core/utils/utils.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../../common/bloc/generic_bloc_state.dart';
 import '../../../banner/bloc/banner_bloc.dart';

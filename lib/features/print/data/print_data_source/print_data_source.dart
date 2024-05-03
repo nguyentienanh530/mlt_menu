@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:mlt_menu_food/features/print/data/model/print_model.dart';
+import 'package:mlt_client_mobile/features/print/data/model/print_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PrintDataSource {
