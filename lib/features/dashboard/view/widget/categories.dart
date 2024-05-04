@@ -54,6 +54,7 @@ class Categories extends StatelessWidget {
                       loadingBuilder: (context, child, loadingProgress) =>
                           loadingProgress == null
                               ? Card(
+                                  elevation: 10,
                                   child: Container(
                                       padding: const EdgeInsets.all(8),
                                       child: child))

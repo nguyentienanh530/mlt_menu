@@ -20,12 +20,13 @@ class ListItemFood extends StatelessWidget {
   Widget _buildImage(FoodModel food) {
     return Container(
         clipBehavior: Clip.hardEdge,
-        width: double.infinity,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(defaultBorderRadius)),
         child: Image.network(food.image == "" ? noImage : food.image,
             loadingBuilder: (context, child, loadingProgress) =>
-                loadingProgress == null ? child : const LoadingScreen(),
+                loadingProgress == null
+                    ? child
+                    : const SizedBox(height: 100, child: LoadingScreen()),
             fit: BoxFit.cover));
   }
 
@@ -57,39 +58,37 @@ class ListItemFood extends StatelessWidget {
     double discountAmount = (food.price * food.discount.toDouble()) / 100;
     double discountedPrice = food.price - discountAmount;
     return food.isDiscount == false
-        ? Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-                Text(Ultils.currencyFormat(double.parse(food.price.toString())),
-                    style: context.titleStyleLarge!.copyWith(
-                        color: context.colorScheme.secondary,
-                        fontWeight: FontWeight.bold)),
-                _buildButtonCart(context, food)
-              ])
-        : Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-                Row(children: [
-                  Text(
+        ? FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+                Ultils.currencyFormat(double.parse(food.price.toString())),
+                style: context.titleStyleLarge!.copyWith(
+                    color: context.colorScheme.secondary,
+                    fontWeight: FontWeight.bold)),
+          )
+        : FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Row(children: [
+              FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
                       Ultils.currencyFormat(
                           double.parse(food.price.toString())),
                       style: context.titleStyleLarge!.copyWith(
                           decoration: TextDecoration.lineThrough,
                           decorationThickness: 3.0,
                           decorationColor: Colors.red,
-                          decorationStyle: TextDecorationStyle.solid)),
-                  const SizedBox(width: 8),
-                  Text(
+                          decorationStyle: TextDecorationStyle.solid))),
+              const SizedBox(width: 8),
+              FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
                       Ultils.currencyFormat(
                           double.parse(discountedPrice.toString())),
                       style: context.titleStyleLarge!.copyWith(
                           color: context.colorScheme.secondary,
-                          fontWeight: FontWeight.bold))
-                ]),
-                _buildButtonCart(context, food)
-              ]);
+                          fontWeight: FontWeight.bold)))
+            ]));
   }
 
   Widget _buildButtonCart(BuildContext context, FoodModel food) {
@@ -103,7 +102,8 @@ class ListItemFood extends StatelessWidget {
               isScrollControlled: true,
               builder: (context) => OrderFoodBottomSheet(foodModel: food));
         },
-        child: const Icon(Icons.shopping_cart_rounded));
+        child: const FittedBox(
+            fit: BoxFit.scaleDown, child: Icon(Icons.shopping_cart_rounded)));
   }
 
   Widget _buildListItemFood(List<FoodModel> food) {
@@ -124,21 +124,19 @@ class ListItemFood extends StatelessWidget {
           },
           child: LayoutBuilder(
               builder: (context, constraints) => Card(
+                    elevation: 10,
                     child: SizedBox(
-                        width: constraints.constrainHeight(),
+                        width: (context.sizeDevice.width / 2) - 32,
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             // mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: <Widget>[
-                              Expanded(
-                                  flex: 2,
-                                  child: Stack(children: <Widget>[
-                                    _buildImage(foodModel),
-                                    foodModel.isDiscount == true
-                                        ? _buildPercentDiscount(
-                                            context, foodModel)
-                                        : const SizedBox()
-                                  ])),
+                              Stack(children: <Widget>[
+                                _buildImage(foodModel),
+                                foodModel.isDiscount == true
+                                    ? _buildPercentDiscount(context, foodModel)
+                                    : const SizedBox()
+                              ]),
                               Expanded(
                                   flex: 1,
                                   child: Padding(
@@ -148,13 +146,16 @@ class ListItemFood extends StatelessWidget {
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                              CrossAxisAlignment.center,
                                           children: [
                                             Expanded(
                                                 child: _buildTitle(
                                                     context, foodModel)),
                                             Expanded(
                                                 child: _buildPriceDiscount(
+                                                    context, foodModel)),
+                                            Expanded(
+                                                child: _buildButtonCart(
                                                     context, foodModel))
                                           ])))
                             ]

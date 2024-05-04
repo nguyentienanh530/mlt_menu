@@ -25,7 +25,7 @@ class NewFoods extends StatelessWidget {
                   Status.failure =>
                     ErrorWidgetCustom(errorMessage: state.error ?? ''),
                   Status.success => SizedBox(
-                      height: context.sizeDevice.width * 0.45,
+                      height: context.sizeDevice.height * 0.35,
                       child: ListItemFood(list: state.datas))
                 })));
   }
