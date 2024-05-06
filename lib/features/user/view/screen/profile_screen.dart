@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mlt_client_mobile/common/widget/loading_screen.dart';
 import 'package:mlt_client_mobile/features/print/cubit/is_use_print_cubit.dart';
 import 'package:mlt_client_mobile/features/print/data/print_data_source/print_data_source.dart';
 import 'package:mlt_client_mobile/features/user/cubit/user_cubit.dart';
@@ -175,9 +177,10 @@ class _CardProfife extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: defaultPadding),
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              user.image.isEmpty
-                  ? _buildImageAsset(context)
-                  : _buildImageNetwork(context),
+              // user.image.isEmpty
+              //     ? _buildImageAsset(context)
+              //     : _buildImageNetwork(context),
+              _buildImageNetwork(context),
               SizedBox(height: defaultPadding),
               Text(user.name),
               SizedBox(height: defaultPadding / 4),
@@ -190,27 +193,20 @@ class _CardProfife extends StatelessWidget {
             ])));
   }
 
-  Widget _buildImageAsset(BuildContext context) {
-    return Container(
-        height: context.sizeDevice.width * 0.2,
-        width: context.sizeDevice.width * 0.2,
-        decoration: BoxDecoration(
-            border: Border.all(color: context.colorScheme.primary),
-            shape: BoxShape.circle,
-            image: const DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage('assets/icon/profile.png'))));
-  }
-
   Widget _buildImageNetwork(BuildContext context) {
     return Container(
         height: context.sizeDevice.width * 0.2,
         width: context.sizeDevice.width * 0.2,
+        clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
             border: Border.all(color: context.colorScheme.primary),
-            shape: BoxShape.circle,
-            image: DecorationImage(
-                fit: BoxFit.cover, image: NetworkImage(user.image))));
+            shape: BoxShape.circle),
+        child: CachedNetworkImage(
+            fit: BoxFit.cover,
+            imageUrl: user.image,
+            placeholder: (context, url) => const LoadingScreen(),
+            errorWidget: (context, url, error) =>
+                const Icon(Icons.photo_library_outlined)));
   }
 
   Widget _buildItem(BuildContext context, IconData icon, String title) {

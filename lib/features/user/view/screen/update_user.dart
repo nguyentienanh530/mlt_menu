@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +10,7 @@ import '../../../../common/dialog/app_alerts.dart';
 import '../../../../common/dialog/progress_dialog.dart';
 import '../../../../common/dialog/retry_dialog.dart';
 import '../../../../common/widget/common_text_field.dart';
+import '../../../../common/widget/loading_screen.dart';
 import '../../bloc/user_bloc.dart';
 import '../../../../core/utils/utils.dart';
 import '../../data/model/user_model.dart';
@@ -180,12 +182,16 @@ class _UpdateUserDialogState extends State<UpdateUser> {
         ? Container(
             height: context.sizeDevice.width * 0.3,
             width: context.sizeDevice.width * 0.3,
+            clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(
                 border: Border.all(color: context.colorScheme.primary),
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(_image.isEmpty ? noImage : _image))))
+                shape: BoxShape.circle),
+            child: CachedNetworkImage(
+                fit: BoxFit.cover,
+                imageUrl: _image,
+                placeholder: (context, url) => const LoadingScreen(),
+                errorWidget: (context, url, error) =>
+                    const Icon(Icons.photo_library_outlined)))
         : Container(
             height: context.sizeDevice.width * 0.3,
             width: context.sizeDevice.width * 0.3,

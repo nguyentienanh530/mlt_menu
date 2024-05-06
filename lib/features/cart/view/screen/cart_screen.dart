@@ -1,4 +1,4 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
+// import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -70,8 +70,8 @@ class CardView extends StatelessWidget {
                           context.read<CartCubit>().onCartClear();
                           context.read<TableCubit>().onTableClear();
 
-                          context.pop();
-                        }, desc: 'Cảm ơn quý khách!')
+                          pop(context, 2);
+                        }, desc: 'Cảm ơn quý khách!', title: 'Thành công!')
                     },
                 child: _buildBody(context, cartState)));
   }
@@ -104,26 +104,29 @@ class CardView extends StatelessWidget {
           elevation: 10,
           margin: const EdgeInsets.all(16),
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(children: [
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                const Text('Tổng tiền:'),
-                Text(
-                    Ultils.currencyFormat(
-                        double.parse(cartState.totalPrice.toString())),
-                    style: TextStyle(
-                        color: context.colorScheme.secondary,
-                        fontWeight: FontWeight.bold))
-              ]),
-              const SizedBox(height: 8),
-              AnimatedButton(
-                  color: context.colorScheme.tertiaryContainer,
-                  text: 'Lên đơn',
-                  buttonTextStyle: context.titleStyleMedium!
-                      .copyWith(fontWeight: FontWeight.bold),
-                  pressEvent: () => submitCreateOrder(context))
-            ]),
-          ))
+              padding: const EdgeInsets.all(16.0),
+              child: Column(children: [
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Tổng tiền:'),
+                      Text(
+                          Ultils.currencyFormat(
+                              double.parse(cartState.totalPrice.toString())),
+                          style: TextStyle(
+                              color: context.colorScheme.secondary,
+                              fontWeight: FontWeight.bold))
+                    ]),
+                const SizedBox(height: 8),
+                FilledButton(
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(
+                            context.colorScheme.secondary)),
+                    onPressed: () => submitCreateOrder(context),
+                    child: Text('Xác nhận lên đơn',
+                        style: context.titleStyleSmall!
+                            .copyWith(fontWeight: FontWeight.bold)))
+              ])))
     ]
             .animate(interval: 50.ms)
             .slideX(

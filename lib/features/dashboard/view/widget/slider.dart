@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -77,11 +78,11 @@ class SliderImage extends StatelessWidget {
                 decoration:
                     BoxDecoration(borderRadius: BorderRadius.circular(16)),
                 clipBehavior: Clip.hardEdge,
-                child: Image.network(item.image,
+                child: CachedNetworkImage(
                     fit: BoxFit.cover,
-                    loadingBuilder: (context, child, loadingProgress) =>
-                        loadingProgress == null
-                            ? child
-                            : const LoadingScreen()))));
+                    imageUrl: item.image,
+                    placeholder: (context, url) => const LoadingScreen(),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.photo_library_outlined)))));
   }
 }

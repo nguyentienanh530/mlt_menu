@@ -7,6 +7,7 @@ import 'package:food_repository/food_repository.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mlt_client_mobile/common/dialog/app_alerts.dart';
 import 'package:mlt_client_mobile/common/widget/common_text_field.dart';
+import 'package:mlt_client_mobile/core/config/router.dart';
 import 'package:mlt_client_mobile/features/cart/cubit/cart_cubit.dart';
 import 'package:mlt_client_mobile/features/order/data/model/food_order.dart';
 import 'package:mlt_client_mobile/features/order/data/model/order_model.dart';
@@ -117,8 +118,10 @@ class _OrderFoodBottomSheetState extends State<OrderFoodBottomSheet> {
     if (table.name.isEmpty) {
       AppAlerts.warningDialog(context,
           desc: AppString.dontSelectTable,
+          title: 'Thông báo!',
           textOk: AppString.ok, btnOkOnPress: () {
         pop(context, 1);
+        context.push(RouteName.tableScreen);
       });
     } else {
       if (checkExistFood(order)) {

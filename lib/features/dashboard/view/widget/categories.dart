@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -50,15 +51,12 @@ class Categories extends StatelessWidget {
             children: [
               Expanded(
                   flex: 3,
-                  child: Image.network(categoryModel.image,
-                      loadingBuilder: (context, child, loadingProgress) =>
-                          loadingProgress == null
-                              ? Card(
-                                  elevation: 10,
-                                  child: Container(
-                                      padding: const EdgeInsets.all(8),
-                                      child: child))
-                              : const LoadingScreen())),
+                  child: CachedNetworkImage(
+                      imageUrl: categoryModel.image,
+                      fit: BoxFit.contain,
+                      placeholder: (context, url) => const LoadingScreen(),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.photo_library_outlined))),
               Expanded(
                   child: FittedBox(
                 fit: BoxFit.scaleDown,

@@ -80,7 +80,7 @@ class _LoginViewState extends State<LoginView> {
                                 title: AppString.errorTitle,
                                 desc: state.errorMessage, btnCancelOnPress: () {
                               context.read<LoginCubit>().resetStatus();
-                              context.pop();
+                              pop(context, 2);
                             });
                             break;
                           case FormzSubmissionStatus.success:

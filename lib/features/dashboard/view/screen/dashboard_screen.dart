@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -109,10 +110,18 @@ class _DashboardViewState extends State<DashboardView>
             decoration: BoxDecoration(
                 border: Border.all(color: context.colorScheme.primary),
                 shape: BoxShape.circle),
-            child: Image.network(user.image.isEmpty ? noImage : user.image,
+            child: CachedNetworkImage(
                 fit: BoxFit.cover,
-                loadingBuilder: (context, child, loadingProgress) =>
-                    loadingProgress == null ? child : const LoadingScreen())));
+                imageUrl: user.image,
+                placeholder: (context, url) => const LoadingScreen(),
+                errorWidget: (context, url, error) =>
+                    const Icon(Icons.photo_library_outlined))
+
+            // Image.network(user.image.isEmpty ? noImage : user.image,
+            //     fit: BoxFit.cover,
+            //     loadingBuilder: (context, child, loadingProgress) =>
+            //         loadingProgress == null ? child : const LoadingScreen())
+            ));
   }
 
   Widget _buildErrorImage() => GestureDetector(

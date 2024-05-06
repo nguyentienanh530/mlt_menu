@@ -1,6 +1,12 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
+// import 'package:awesome_dialog/awesome_dialog.dart';
+// import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lottie/lottie.dart';
+import 'package:material_dialogs/material_dialogs.dart';
+import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import '../widget/common_text_style.dart';
 import '../../core/utils/utils.dart';
 
@@ -50,42 +56,68 @@ class AppAlerts {
       String? btnOkText,
       Function()? btnCancelOnPress,
       Function()? btnOkOnPress}) {
-    AwesomeDialog(
-      dialogBackgroundColor: context.colorScheme.primaryContainer,
-      dismissOnTouchOutside: false,
-      titleTextStyle:
-          context.textStyleLarge!.copyWith(fontWeight: FontWeight.bold),
-      descTextStyle: context.textStyleSmall,
-      context: context,
-      dialogType: DialogType.success,
-      animType: AnimType.rightSlide,
-      title: title ?? 'Thành công!',
-      desc: desc ?? '',
-      btnOkText: btnOkText ?? AppString.ok,
-      btnCancelOnPress: btnCancelOnPress,
-      btnOkOnPress: btnOkOnPress,
-    ).show();
+    // AwesomeDialog(
+    //   dialogBackgroundColor: context.colorScheme.primaryContainer,
+    //   dismissOnTouchOutside: false,
+    //   titleTextStyle:
+    //       context.textStyleLarge!.copyWith(fontWeight: FontWeight.bold),
+    //   descTextStyle: context.textStyleSmall,
+    //   context: context,
+    //   dialogType: DialogType.success,
+    //   animType: AnimType.rightSlide,
+    //   title: title ?? 'Thành công!',
+    //   desc: desc ?? '',
+    //   btnOkText: btnOkText ?? AppString.ok,
+    //   btnCancelOnPress: btnCancelOnPress,
+    //   btnOkOnPress: btnOkOnPress,
+    // ).show();
+
+    Dialogs.materialDialog(
+        barrierDismissible: false,
+        color: Colors.white,
+        titleStyle: context.titleStyleLarge!
+            .copyWith(fontWeight: FontWeight.bold, color: Colors.black),
+        msgStyle: context.textStyleSmall!.copyWith(color: Colors.black),
+        msg: desc,
+        title: title,
+        lottieBuilder:
+            Lottie.asset('assets/animations/success.json', fit: BoxFit.contain),
+        dialogWidth: kIsWeb ? 0.3 : null,
+        context: context,
+        actions: [
+          IconsButton(
+              onPressed: btnOkOnPress ?? () {},
+              text: btnOkText ?? AppString.ok,
+              iconData: Icons.done,
+              color: Colors.blue,
+              textStyle: const TextStyle(color: Colors.white),
+              iconColor: Colors.white)
+        ]);
   }
 
   static failureDialog(BuildContext context,
-      {String? title,
-      String? desc,
-      Function()? btnCancelOnPress,
-      Function()? btnOkOnPress}) {
-    AwesomeDialog(
-      dismissOnTouchOutside: false,
-      dialogBackgroundColor: context.colorScheme.background,
-      titleTextStyle:
-          context.textStyleLarge!.copyWith(fontWeight: FontWeight.bold),
-      descTextStyle: context.textStyleSmall,
-      context: context,
-      dialogType: DialogType.error,
-      animType: AnimType.rightSlide,
-      title: title ?? 'Thông báo',
-      desc: desc ?? '',
-      btnCancelOnPress: btnCancelOnPress,
-      btnOkOnPress: btnOkOnPress,
-    ).show();
+      {String? title, String? desc, Function()? btnCancelOnPress}) {
+    Dialogs.materialDialog(
+        barrierDismissible: false,
+        color: Colors.white,
+        titleStyle: context.titleStyleLarge!
+            .copyWith(fontWeight: FontWeight.bold, color: Colors.black),
+        msgStyle: context.textStyleSmall!.copyWith(color: Colors.black),
+        msg: desc,
+        title: title,
+        lottieBuilder:
+            Lottie.asset('assets/animations/error.json', fit: BoxFit.contain),
+        dialogWidth: kIsWeb ? 0.3 : null,
+        context: context,
+        actions: [
+          IconsButton(
+              onPressed: btnCancelOnPress ?? () {},
+              text: 'Ok',
+              iconData: Icons.error,
+              color: Colors.red,
+              textStyle: const TextStyle(color: Colors.white),
+              iconColor: Colors.white)
+        ]);
   }
 
   static warningDialog(BuildContext context,
@@ -95,21 +127,37 @@ class AppAlerts {
       String? textOk,
       Function()? btnCancelOnPress,
       Function()? btnOkOnPress}) {
-    AwesomeDialog(
-      dismissOnTouchOutside: false,
-      btnCancelText: textCancel ?? 'Cancel',
-      btnOkText: textOk ?? 'Ok',
-      titleTextStyle:
-          context.textStyleLarge!.copyWith(fontWeight: FontWeight.bold),
-      descTextStyle: context.textStyleSmall,
-      context: context,
-      dialogType: DialogType.warning,
-      animType: AnimType.rightSlide,
-      title: title ?? 'Thông báo',
-      desc: desc ?? '',
-      btnCancelOnPress: btnCancelOnPress,
-      btnOkOnPress: btnOkOnPress,
-    ).show();
+    Dialogs.materialDialog(
+        barrierDismissible: false,
+        color: Colors.white,
+        titleStyle: context.titleStyleLarge!
+            .copyWith(fontWeight: FontWeight.bold, color: Colors.black),
+        msgStyle: context.textStyleSmall!.copyWith(color: Colors.black),
+        msg: desc,
+        title: title,
+        lottieBuilder:
+            Lottie.asset('assets/animations/warning.json', fit: BoxFit.contain),
+        dialogWidth: kIsWeb ? 0.3 : null,
+        context: context,
+        actions: [
+          IconsButton(
+              onPressed: btnCancelOnPress ??
+                  () {
+                    context.pop();
+                  },
+              text: textCancel ?? 'Hủy',
+              iconData: Icons.highlight_remove_rounded,
+              color: Colors.red,
+              textStyle: const TextStyle(color: Colors.white),
+              iconColor: Colors.white),
+          IconsButton(
+              onPressed: btnOkOnPress ?? () {},
+              text: textOk ?? 'Ok',
+              iconData: Icons.done,
+              color: Colors.blue,
+              textStyle: const TextStyle(color: Colors.white),
+              iconColor: Colors.white)
+        ]);
   }
 
   static loadingDialog(BuildContext context, {String? desc}) {

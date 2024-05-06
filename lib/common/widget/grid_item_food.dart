@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
@@ -14,16 +15,17 @@ class GridItemFood extends StatelessWidget {
   const GridItemFood({super.key, required this.list, this.isScroll = false});
   Widget _buildImage(FoodModel food) {
     return Container(
+        height: 150,
         clipBehavior: Clip.hardEdge,
         width: double.infinity,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(defaultBorderRadius)),
-        child: Image.network(food.image == "" ? noImage : food.image,
-            loadingBuilder: (context, child, loadingProgress) =>
-                loadingProgress == null
-                    ? child
-                    : const SizedBox(height: 100, child: LoadingScreen()),
-            fit: BoxFit.cover));
+        child: CachedNetworkImage(
+            fit: BoxFit.cover,
+            imageUrl: food.image,
+            placeholder: (context, url) => const LoadingScreen(),
+            errorWidget: (context, url, error) =>
+                const Icon(Icons.photo_library_outlined)));
   }
 
   Widget _buildPercentDiscount(BuildContext context, FoodModel food) {

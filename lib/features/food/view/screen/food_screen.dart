@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -12,6 +13,7 @@ import '../../../../common/widget/common_line_text.dart';
 import '../../../../common/widget/common_text_field.dart';
 import '../../../../common/widget/empty_screen.dart';
 import '../../../../common/widget/error_screen.dart';
+import '../../../../common/widget/loading_screen.dart';
 import '../../../../core/utils/utils.dart';
 import '../../../search_food/cubit/text_search_cubit.dart';
 import '../../data/model/food_model.dart';
@@ -221,12 +223,14 @@ class _AfterSearchUIState extends State<AfterSearchUI> {
         margin: EdgeInsets.all(defaultPadding / 2),
         height: 80,
         width: 80,
-        decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.black.withOpacity(0.3),
-            image: DecorationImage(
-                image: NetworkImage(food.image == "" ? noImage : food.image),
-                fit: BoxFit.cover)));
+        clipBehavior: Clip.hardEdge,
+        decoration: const BoxDecoration(shape: BoxShape.circle),
+        child: CachedNetworkImage(
+            fit: BoxFit.cover,
+            imageUrl: food.image,
+            placeholder: (context, url) => const LoadingScreen(),
+            errorWidget: (context, url, error) =>
+                const Icon(Icons.photo_library_outlined)));
   }
 
   Widget _buildCategory(BuildContext context, FoodModel food) {

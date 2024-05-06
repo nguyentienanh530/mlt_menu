@@ -34,7 +34,7 @@ class AppString {
   static String errorTitle = 'Error!';
   static String searchFood = 'Tìm kiếm món ăn';
   static String addToCart = 'Thêm vào giỏ hàng';
-  static String dontSelectTable = 'Chưa chọn bàn, quay lại trang chủ chọn bàn.';
+  static String dontSelectTable = 'Chưa chọn bàn, chọn bàn trước khi đặt món!';
   static String ok = 'Xác nhận';
   static String cancel = 'Hủy';
   static String totalPrice = 'Tổng tiền:';
