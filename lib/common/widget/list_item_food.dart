@@ -18,9 +18,9 @@ class ListItemFood extends StatelessWidget {
   // final getContext = Get.context;
 
   const ListItemFood({super.key, required this.list});
-  Widget _buildImage(FoodModel food) {
+  Widget _buildImage(FoodModel food, double height) {
     return Container(
-        height: 150,
+        height: height,
         width: double.infinity,
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
@@ -135,7 +135,8 @@ class ListItemFood extends StatelessWidget {
                             // mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: <Widget>[
                               Stack(children: <Widget>[
-                                _buildImage(foodModel),
+                                _buildImage(
+                                    foodModel, constraints.maxHeight * 0.65),
                                 foodModel.isDiscount == true
                                     ? _buildPercentDiscount(context, foodModel)
                                     : const SizedBox()

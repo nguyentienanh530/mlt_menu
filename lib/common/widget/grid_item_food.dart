@@ -13,9 +13,9 @@ class GridItemFood extends StatelessWidget {
   final bool? isScroll;
 
   const GridItemFood({super.key, required this.list, this.isScroll = false});
-  Widget _buildImage(FoodModel food) {
+  Widget _buildImage(FoodModel food, double height) {
     return Container(
-        height: 150,
+        height: height,
         clipBehavior: Clip.hardEdge,
         width: double.infinity,
         decoration: BoxDecoration(
@@ -144,7 +144,8 @@ class GridItemFood extends StatelessWidget {
                           // mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
                             Stack(children: <Widget>[
-                              _buildImage(foodModel),
+                              _buildImage(
+                                  foodModel, constraints.maxHeight * 0.65),
                               foodModel.isDiscount == true
                                   ? _buildPercentDiscount(context, foodModel)
                                   : const SizedBox()
