@@ -155,7 +155,7 @@ class _ImageFood extends StatelessWidget {
         tag: 'hero-tag-${food.id}-search',
         child: Material(
             child: Container(
-                height: context.sizeDevice.height * 0.4,
+                height: context.sizeDevice.height * 0.5,
                 width: double.infinity,
                 clipBehavior: Clip.hardEdge,
                 decoration:
