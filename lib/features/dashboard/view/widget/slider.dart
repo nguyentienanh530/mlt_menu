@@ -37,7 +37,7 @@ class SliderImage extends StatelessWidget {
                             onPageChanged: (index, reason) {
                               indexPage.value = index;
                             },
-                            height: context.sizeDevice.height * 0.2,
+                            height: context.sizeDevice.height * 0.25,
                             viewportFraction: 1,
                             initialPage: 0,
                             enableInfiniteScroll: true,

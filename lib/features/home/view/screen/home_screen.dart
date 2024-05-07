@@ -44,7 +44,7 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   void initState() {
-    _updateToken();
+    // _updateToken();
     _handleGetPrint();
     getIsUsePrint();
     test();

@@ -182,16 +182,20 @@ class _UpdateUserDialogState extends State<UpdateUser> {
         ? Container(
             height: context.sizeDevice.width * 0.3,
             width: context.sizeDevice.width * 0.3,
-            clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(
                 border: Border.all(color: context.colorScheme.primary),
                 shape: BoxShape.circle),
-            child: CachedNetworkImage(
-                fit: BoxFit.cover,
-                imageUrl: _image,
-                placeholder: (context, url) => const LoadingScreen(),
-                errorWidget: (context, url, error) =>
-                    const Icon(Icons.photo_library_outlined)))
+            child: Container(
+              clipBehavior: Clip.hardEdge,
+              margin: const EdgeInsets.all(1),
+              decoration: const BoxDecoration(shape: BoxShape.circle),
+              child: CachedNetworkImage(
+                  fit: BoxFit.cover,
+                  imageUrl: _image,
+                  placeholder: (context, url) => const LoadingScreen(),
+                  errorWidget: (context, url, error) =>
+                      const Icon(Icons.photo_library_outlined)),
+            ))
         : Container(
             height: context.sizeDevice.width * 0.3,
             width: context.sizeDevice.width * 0.3,

@@ -197,16 +197,20 @@ class _CardProfife extends StatelessWidget {
     return Container(
         height: context.sizeDevice.width * 0.2,
         width: context.sizeDevice.width * 0.2,
-        clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
             border: Border.all(color: context.colorScheme.primary),
             shape: BoxShape.circle),
-        child: CachedNetworkImage(
-            fit: BoxFit.cover,
-            imageUrl: user.image,
-            placeholder: (context, url) => const LoadingScreen(),
-            errorWidget: (context, url, error) =>
-                const Icon(Icons.photo_library_outlined)));
+        child: Container(
+          clipBehavior: Clip.hardEdge,
+          margin: const EdgeInsets.all(1),
+          decoration: const BoxDecoration(shape: BoxShape.circle),
+          child: CachedNetworkImage(
+              fit: BoxFit.cover,
+              imageUrl: user.image,
+              placeholder: (context, url) => const LoadingScreen(),
+              errorWidget: (context, url, error) =>
+                  const Icon(Icons.photo_library_outlined)),
+        ));
   }
 
   Widget _buildItem(BuildContext context, IconData icon, String title) {

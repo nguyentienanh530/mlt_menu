@@ -97,31 +97,35 @@ class _DashboardViewState extends State<DashboardView>
   }
 
   Widget _buildProfile() {
-    var user = context.watch<UserCubit>().state;
+    return Builder(builder: (context) {
+      var user = context.watch<UserCubit>().state;
+      return GestureDetector(
+          onTap: () {
+            context.push(RouteName.profile, extra: user);
+          },
+          child: Container(
+              height: 30,
+              width: 30,
+              decoration: BoxDecoration(
+                  border: Border.all(color: context.colorScheme.primary),
+                  shape: BoxShape.circle),
+              child: Container(
+                  clipBehavior: Clip.hardEdge,
+                  margin: const EdgeInsets.all(1),
+                  decoration: const BoxDecoration(shape: BoxShape.circle),
+                  child: CachedNetworkImage(
+                      fit: BoxFit.cover,
+                      imageUrl: user.image,
+                      placeholder: (context, url) => const LoadingScreen(),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.photo_library_outlined)))
 
-    return GestureDetector(
-        onTap: () {
-          context.push(RouteName.profile, extra: user);
-        },
-        child: Container(
-            height: 30,
-            width: 30,
-            clipBehavior: Clip.hardEdge,
-            decoration: BoxDecoration(
-                border: Border.all(color: context.colorScheme.primary),
-                shape: BoxShape.circle),
-            child: CachedNetworkImage(
-                fit: BoxFit.cover,
-                imageUrl: user.image,
-                placeholder: (context, url) => const LoadingScreen(),
-                errorWidget: (context, url, error) =>
-                    const Icon(Icons.photo_library_outlined))
-
-            // Image.network(user.image.isEmpty ? noImage : user.image,
-            //     fit: BoxFit.cover,
-            //     loadingBuilder: (context, child, loadingProgress) =>
-            //         loadingProgress == null ? child : const LoadingScreen())
-            ));
+              // Image.network(user.image.isEmpty ? noImage : user.image,
+              //     fit: BoxFit.cover,
+              //     loadingBuilder: (context, child, loadingProgress) =>
+              //         loadingProgress == null ? child : const LoadingScreen())
+              ));
+    });
   }
 
   Widget _buildErrorImage() => GestureDetector(
